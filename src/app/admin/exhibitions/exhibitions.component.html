@@ -1,0 +1,531 @@
+<div class="row">
+  <div class="col-lg-7">
+    <form *ngIf="formUpdate && showUpdate" [formGroup]="formUpdate" (ngSubmit)="onUpdate()">
+      <nb-card>
+        <nb-card-header class="bg-header-section">      
+          <div class="close-modale" (click)="closeUpdateModale()">
+            <nb-icon icon="close-outline"></nb-icon>
+          </div>
+          <span>
+            Обновить
+          </span>
+          <input
+            type="text"
+            class="hide-locale-id"
+            formControlName="id"
+            [(ngModel)]="id">
+        </nb-card-header>
+        <nb-card-body *ngIf="exhibition && exhibition[0].translations.length > 0">
+          <nb-checkbox
+          [(ngModel)]="exhibition[0].showInMainPage"
+          formControlName="showInMainPage"
+          >Показать на главной</nb-checkbox>
+        </nb-card-body>
+        <nb-card-body *ngIf="exhibition && exhibition[0].translations.length > 0">
+          <div class="flex-col">
+            <p>
+              <span class="admin-title-desc">Дата начало: </span>
+              <input 
+                type="text"
+                nbInput
+                ngModel="{{ exhibition[0].startDate  | date : 'dd.MM.yyyy' }}"
+                placeholder="дд.мм.гггг"
+                formControlName="startDate"
+              >
+            </p>
+            <p>
+              <span class="admin-title-desc">Дата конца: </span>
+              <input
+                nbInput
+                type="text" 
+                ngModel="{{ exhibition[0].endDate  | date : 'dd.MM.yyyy' }}"
+                placeholder="дд.мм.гггг"
+                formControlName="endDate"
+              >
+            </p>
+          </div>
+        </nb-card-body>
+        <nb-card-body *ngIf="exhibition && exhibition[0].translations.length > 0" >
+          <img class="image-thumbnail" [src]="exhibition[0].image | imagePathReplacer:'exhibitions'" >
+        </nb-card-body>
+        <nb-card-body>
+            <nb-card-header>Заменить изображение</nb-card-header>
+            <div class="flex-col">
+              <input
+                type="file"
+                nbInput
+                fullWidth
+                (change)="onImageChangeUpdate($event)"
+                fieldSize="small"
+              >
+            </div>
+          </nb-card-body>
+      </nb-card>
+      <div formArrayName="translatable">
+        <ngb-tabset [justify]="'start'">
+          <ngb-tab *ngFor="let group of localeFormUpdateArray; let i = index;" title="Язык: {{localesList[i].name}}">
+            <ng-template ngbTabContent>
+              <div [formGroupName]="i">
+                <nb-card>
+                  <nb-card-body *ngIf="
+                    exhibition && exhibition[0].translations.length > 0 && 
+                    exhibition[0].translations[i] === undefined">
+                    <p>Нельзя обновить, нужно создать перевод для этого языка</p>
+                    <button type="button" class="btn" (click)="onShowAddLocale()">Cоздать перевод</button>
+                  </nb-card-body>
+                  <ng-container
+                    *ngIf="
+                      exhibition && exhibition[0].translations.length > 0 && 
+                      exhibition[0].translations[i] !== undefined && 
+                      exhibition[0].translations[i].localeId === localesList[i].id"
+                    >
+                    <nb-card-body>
+                      <nb-card-header>Заголовок</nb-card-header>
+                      <input
+                        type="text"
+                        nbInput
+                        fullWidth
+                        formControlName="title"
+                        [(ngModel)]="exhibition[0].translations[i].title"
+                        fieldSize="small"
+                        placeholder="название"
+                      >
+                    </nb-card-body>
+                    <nb-card-body>
+                      <nb-card-header>Описание</nb-card-header>
+                      <editor
+                        apiKey="e4jfmmhhoz38oweg2rsgfzhi8t00372yyzkzm05tr1ow6wsb"
+                        fullWidth
+                        [(ngModel)]="exhibition[0].translations[i].body"
+                        formControlName="description"
+                        [init]="{
+                            plugins: 'lists advlist link image quickbars',
+                            height: 500,
+                            menu: 'cut',
+                            toolbar: 'undo redo | bold italic | bullist numlist outdent indent link quickimage'
+                          }"
+                        >
+                      </editor>
+                    </nb-card-body>
+                    <nb-card-body *ngIf="
+                    exhibition[0].files.length > 0 && 
+                    exhibition[0].files[i] &&
+                    exhibition[0].files[i].fileName &&
+                    exhibition[0].files[i].localeId === localesList[i].id; else addPressPDF">
+                      <a target="_blank"  [href]="exhibition[0].files[i].fileName | imagePathReplacer:'customFiles'" >
+                        <nb-icon icon="file-text-outline"></nb-icon>
+                        Пресс-релиз
+                      </a>
+                      <button type="button" class="btn" (click)="removeFileFromServer(exhibition[0].files[i].id, id)">
+                        <nb-icon icon="trash-2-outline"></nb-icon>
+                      </button>
+                    </nb-card-body>
+                    <ng-template #addPressPDF>
+                      <nb-card-body>
+                        <p class="pdf-file" *ngFor="let item of pdfFiles; let i = index">
+                            Пресс-релиз добавлен, язык:  {{localesList[i].name}}
+                          <nb-icon icon="file-text-outline"></nb-icon>
+                          <b>{{ item.file.name }}</b>
+                          <button type="button" (click)="removeCreatedFile(i)" class="btn">
+                            <nb-icon icon="trash-2-outline"></nb-icon>
+                          </button>
+                        </p>
+                      </nb-card-body>
+                      <nb-card-body>
+                        <button *ngIf="pdfFiles.length > 0" nbButton type="button" (click)="onUploadFile(id)">Закачать файл на сервер</button>
+                      </nb-card-body>
+                      <nb-card-body>
+                        <nb-card-header>Добавить пресс-релиз PDF для "{{localesList[i].name}}" языка</nb-card-header>
+                        <input
+                          type="file"
+                          nbInput
+                          fullWidth
+                          (change)="onPDFChange($event, localesList[i].id)"
+                          fieldSize="small"
+                        >
+                      </nb-card-body>
+                    </ng-template>
+                    <nb-card-body>
+                      <nb-card-header>Мета заголовок</nb-card-header>
+                      <input
+                        type="text"
+                        nbInput
+                        fullWidth
+                        formControlName="metaTitle"
+                        [(ngModel)]="exhibition[0].translations[i].metaTitle"
+                        fieldSize="small"
+                        placeholder="название"
+                      >
+                    </nb-card-body>
+                    <nb-card-body>
+                      <nb-card-header>Мета описание</nb-card-header>
+                      <textarea 
+                        nbInput
+                        fullWidth
+                        formControlName="metaDescription"
+                        placeholder="название"
+                        [(ngModel)]="exhibition[0].translations[i].metaDescription"
+                        rows="3"></textarea>
+                    </nb-card-body>
+                  </ng-container>
+                </nb-card>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+      <nb-card>
+        <nb-card-header>Работы выставке: </nb-card-header>
+        <nb-card-body>
+          <p  *ngFor="let work of selectedWorkIdCreateName; let i = index" >
+            {{ work.title }}
+            <button type="button" (click)="removeWorkFromArr(i)" class="btn">
+              <nb-icon icon="close-outline"></nb-icon>
+            </button>
+          </p>
+        </nb-card-body>
+        <nb-card-body>
+          <p *ngIf="selectedWorkIdCreateName.length > 0">Выбрано: {{ selectedWorkIdCreateName.length }} шт.</p>
+          <button (click)="openWorkWindow(longContent)"  type="button" nbButton>Выбрать работы</button>
+        </nb-card-body>
+        <ng-container *ngIf="workForExhibList">
+          <nb-card-body>
+            <p *ngIf="selectedWorkIdDelete.length > 0">Выбрано на удаление: {{ selectedWorkIdDelete.length }} шт. (чтобы удалить нажмите кнопку "обновить")</p>
+          </nb-card-body>
+          <nb-card-body *ngFor="let works of workForExhibList; let i = index">
+            <div class="works-props">
+              <img  *ngIf="works && works.translations.length > 0" [src]="works.images[0].thumbnail | imagePathReplacer:'works'">
+              <div class="works-props-text">
+                <p *ngIf="works && works.translations.length > 0" >{{ works.translations[0].title }}</p>
+                <p *ngIf="works.artist && works.artist.translations.length > 0" >{{ works.artist.translations[0].name }}</p>
+              </div>
+              <button  type="button" class="btn" (click)="removeWorkFromExhibition(works.id, i)">
+                <nb-icon icon="close-outline"></nb-icon>
+              </button>
+            </div>
+          </nb-card-body>
+        </ng-container>
+      </nb-card>
+      <nb-card>
+        <nb-card-body>
+          <button class="btn" type="submit" [disabled]="!formUpdate.valid">
+            Обновить
+          </button>
+        </nb-card-body>
+      </nb-card>
+    </form>
+    <form *ngIf="showAddLocale && showUpdate" [formGroup]="formAddLocale" (ngSubmit)="onAddLocale()">
+      <nb-card>
+        <nb-card-header class="bg-header-create-locale-section">
+          <span>
+            Добавить перевод
+          </span>
+          <input
+            type="text"
+            class="hide-locale-id"
+            formControlName="id"
+            [(ngModel)]="id">
+        </nb-card-header>
+        <nb-card-body>
+          <nb-select formControlName="localeId" placeholder="Выбрать язык">
+            <nb-option *ngFor="let locale of localesList" [value]="locale.id">{{ locale.name }}</nb-option>
+          </nb-select>
+        </nb-card-body>
+      </nb-card>
+      <div formArrayName="data">
+        <nb-card>
+          <nb-card-body>
+              <nb-card-header>Имя</nb-card-header>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                formControlName="title"
+                fieldSize="small"
+                placeholder="название"
+              >
+          </nb-card-body>
+          <nb-card-body>
+            <nb-card-header>Описание</nb-card-header>
+            <editor
+              apiKey="e4jfmmhhoz38oweg2rsgfzhi8t00372yyzkzm05tr1ow6wsb"
+              fullWidth
+              formControlName="description"
+              [init]="{
+                  plugins: 'lists advlist link image quickbars',
+                  height: 500,
+                  menu: 'cut',
+                  toolbar: 'undo redo | bold italic | bullist numlist outdent indent link quickimage'
+                }"
+              >
+            </editor>
+          </nb-card-body>
+          <nb-card-body>
+            <nb-card-header>Мета заголовок</nb-card-header>
+            <input
+              type="text"
+              nbInput
+              fullWidth
+              formControlName="metaTitle"
+              fieldSize="small"
+              placeholder="название"
+            >
+          </nb-card-body>
+          <nb-card-body>
+            <nb-card-header>Мета описание</nb-card-header>
+            <textarea 
+              nbInput
+              fullWidth
+              formControlName="metaDescription"
+              placeholder="название"
+              rows="3"></textarea>
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <nb-card>
+        <nb-card-body>
+          <button class="btn" type="submit" [disabled]="!formAddLocale.valid">
+            Добавить перевод
+          </button>
+        </nb-card-body>
+      </nb-card>
+    </form>
+    <form *ngIf="formCreate" [formGroup]="formCreate" (ngSubmit)="onCreate()">
+      <nb-card>
+        <nb-card-header class="bg-header-create-section">
+          <span>
+            Создать выставку
+          </span>
+        </nb-card-header>
+        <nb-card-body>
+          <nb-card-header>Добавить изображение</nb-card-header>
+          <div class="flex-col">
+            <input
+              type="file"
+              nbInput
+              fullWidth
+              (change)="onImageChange($event)"
+              fieldSize="small"
+            >
+            <input
+              nbInput
+              [nbDatepicker]="startDate"
+              formControlName="startDate"
+              placeholder="дата начала"
+            >
+            <nb-datepicker #startDate ></nb-datepicker>
+            <input
+              nbInput
+              [nbDatepicker]="endDate"
+              formControlName="endDate"
+              placeholder="дата конца"
+            >
+            <nb-datepicker #endDate ></nb-datepicker>
+          </div>
+        </nb-card-body>
+      </nb-card>
+      <div formGroupName="translatable">
+        <ngb-tabset [justify]="'start'">
+          <ngb-tab *ngFor="let group of localeFormUpdateArray; let i = index;" title="Язык: {{localesList[i].name}}">
+            <ng-template ngbTabContent>
+              <div [formGroupName]="i">
+                <nb-card>
+                    <nb-card-body>
+                      <nb-card-header>Название</nb-card-header>
+                      <input
+                        type="text"
+                        nbInput
+                        fullWidth
+                        formControlName="title"
+                        fieldSize="small"
+                        placeholder="название"
+                      >
+                    </nb-card-body>
+                    <nb-card-body>
+                      <nb-card-header>Описание</nb-card-header>
+                      <editor
+                        apiKey="e4jfmmhhoz38oweg2rsgfzhi8t00372yyzkzm05tr1ow6wsb"
+                        fullWidth
+                        formControlName="description"
+                        [init]="{
+                            plugins: 'lists advlist link image quickbars',
+                            height: 500,
+                            menu: 'cut',
+                            toolbar: 'undo redo | bold italic | bullist numlist outdent indent link quickimage'
+                          }"
+                        >
+                      </editor>
+                    </nb-card-body>
+
+                    <nb-card-body>
+                      <p  *ngFor="let work of selectedWorkIdCreateName; let i = index" >
+                        {{ work.title }}
+                        <button type="button" (click)="removeWorkFromArr(i)" class="btn">
+                          <nb-icon icon="close-outline"></nb-icon>
+                        </button>
+                      </p>
+                    </nb-card-body>
+                    <nb-card-body>
+                      <p *ngIf="selectedWorkIdCreateName.length > 0">Выбрано: {{ selectedWorkIdCreateName.length }} шт.</p>
+                      <button (click)="openWorkWindow(longContent)"  type="button" nbButton>Выбрать работы</button>
+                    </nb-card-body>
+                    <nb-card-body>
+                      <p class="pdf-file" *ngFor="let item of pdfFiles; let i = index">
+                        Создан файл язык:  {{localesList[i].name}}
+                        <nb-icon icon="file-text-outline"></nb-icon>
+                        <b>{{ item.file.name }}</b>
+                        <button type="button" (click)="removeCreatedFile(i)" class="btn">
+                          <nb-icon icon="trash-2-outline"></nb-icon>
+                        </button>
+                      </p>
+                    </nb-card-body>
+                    <nb-card-body>
+                      <nb-card-header>Создать пресс-релиз PDF для "{{localesList[i].name}}" языка</nb-card-header>
+                      <input
+                        type="file"
+                        nbInput
+                        fullWidth
+                        (change)="onPDFChange($event, localesList[i].id)"
+                        fieldSize="small"
+                      >
+                    </nb-card-body>
+                    <nb-card-body>
+                      <nb-card-header>Мета заголовок</nb-card-header>
+                      <input
+                        type="text"
+                        nbInput
+                        fullWidth
+                        formControlName="metaTitle"
+                        fieldSize="small"
+                        placeholder="имя"
+                      >
+                    </nb-card-body>
+                    <nb-card-body>
+                      <nb-card-header>Мета описание</nb-card-header>
+                      <textarea 
+                        nbInput
+                        fullWidth
+                        formControlName="metaDescription"
+                        placeholder="описание"
+                        rows="3"></textarea>
+                    </nb-card-body>
+                </nb-card>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+      <nb-card>
+        <nb-card-body>
+          <button class="btn" type="submit" [disabled]="!formCreate.valid">
+            Создать
+          </button>
+        </nb-card-body>
+      </nb-card>
+    </form>
+  </div>
+  <div class="col-lg-5">
+    <nb-card>
+      <nb-card-body>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Поиск"
+          ngModel
+          (ngModelChange)="onSearchTerm($event)"
+        >
+      </nb-card-body>
+    </nb-card>
+    <ng-container *ngFor="let item of exhibitionListQuery | async">
+      <nb-card>
+        <ng-container>
+          <nb-card-header>
+            <span *ngIf="item.translations && item.translations.length > 0">
+              <button
+                (click)="getExhibitionsId(item.id)"
+                class="btn"
+                type="button">
+                <nb-icon icon="edit-2-outline"></nb-icon>
+              </button>
+              <button
+                class="btn"
+                type="button"
+                [nbPopover]="templateRef"
+              >
+                <nb-icon icon="trash-2-outline"></nb-icon>
+              </button>
+              <ng-template #templateRef>
+                <div class="delete-item-section">
+                  <p *ngIf="item.translations.length > 0" >Удалить <b>"{{ item.translations[0].title }}"</b> ?</p>
+                  <p *ngIf="item.translations.length === 0" >Удалить?</p>
+                  <div class="btn-flex-sction">
+                    <button nbButton (click)="onRemoveNews(item.id)" status="danger">Удалить</button>
+                  </div>
+                </div>
+              </ng-template>
+              <a class="red-link" [routerLink]="['/'+ item.translations[0].slug]" target="_blank">
+                {{ item.translations[0].title }}
+              </a>
+            </span>
+          </nb-card-header>
+          <nb-card-body>
+            <img class="image-thumbnail" [src]="item.image | imagePathReplacer:'exhibitions'" >
+          </nb-card-body>
+        </ng-container>
+      </nb-card>
+    </ng-container>
+  </div>
+</div>
+<ng-template #longContent let-modal>
+  <div class="modal-header">
+    <h6>Выбрать работы</h6>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <nb-card>
+    <nb-card-body *ngIf="selectedWorkIdCreateName.length > 0">
+      Добавлено: {{selectedWorkIdCreateName.length}} 
+    </nb-card-body>
+  </nb-card>
+  <nb-card>
+    <nb-card-body>
+      <div class="flex-col">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Поиск по названию работ"
+          ngModel
+          (ngModelChange)="onSearchWorks($event)"
+        >
+      </div>
+    </nb-card-body>
+  </nb-card>
+  <div class="modal-body">
+    <ng-container *ngFor="let workItem of worksIdsListQuery | async; let i = index">
+      <nb-card *ngIf="workItem.translations && workItem.translations.length > 0" >
+        <nb-card-header>
+          <button type="button" nbButton status="success" (click)="getWokrId(workItem.id, workItem.translations[0].title)">
+            <nb-icon icon="plus-outline"></nb-icon>
+          </button>
+          {{ workItem.translations[0].title }}
+        </nb-card-header>
+        <nb-card-body>
+          <ng-container *ngIf="workItem.artist && workItem.artist.translations.length > 0">
+            <p>
+                Автор: {{workItem.artist.translations[0].name }}
+            </p>
+          </ng-container>
+          <div class="flex-center">
+            <a [routerLink]="['/'+ workItem.translations[0].slug]" target="_blank">
+              <img class="image-thumbnail"  *ngIf="workItem.images.length > 0 && workItem.images[0].thumbnail" [src]="workItem.images[0].thumbnail | imagePathReplacer:'works'" >
+            </a>
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Закрыть</button>
+  </div>
+</ng-template>

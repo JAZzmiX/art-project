@@ -1,0 +1,10 @@
+query Slider($localeId: uuid) {
+  slider {
+    files
+    translations(where:{localeId: {_eq:$localeId}}) {
+      title
+      body
+      slug
+    }
+  }
+}

@@ -1,0 +1,12 @@
+query getTranslationKey($key: String) {
+  translation( where: { 
+    key: { _eq: $key }
+  }
+  order_by: {localeId:asc}) {
+    id
+    key
+    value
+    page
+    localeId
+  }
+}

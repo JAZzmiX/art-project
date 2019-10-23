@@ -1,0 +1,5 @@
+mutation deleteNews($newsId: String!) {
+  deleteNews(id: $newsId) {
+    deleted
+  }
+}

@@ -1,0 +1,5 @@
+mutation deleteWork($workId: String!) {
+  deleteWork(id: $workId) {
+    deleted
+  }
+}

@@ -1,0 +1,10 @@
+.admin-title-desc {
+  opacity: 0.3;
+}
+a.red-link {
+  margin-left: 0.5rem;
+  font-weight: 400;
+  &:hover {
+    color: var(--active-color);
+  }
+}

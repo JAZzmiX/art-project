@@ -1,0 +1,78 @@
+query getWorkLocale(
+  $slug: String
+  $localeId: uuid
+  $limit: Int = 10
+  $offset: Int
+) {
+  work(where: { translations: { slug: { _eq: $slug } } }) {
+    id
+    images
+    translations(
+      where:{ localeId: { _eq: $localeId } }
+      order_by: { id: asc }
+    ) {
+      id
+      slug
+      metaTitle
+      title
+      metaDescription
+      localeId
+      creationDate
+    }
+    price
+    forSale
+    basis {
+      translations(where: { localeId: { _eq: $localeId } }) {
+        name
+      }
+    }
+    size
+    technique {
+      translations(where: { localeId: { _eq: $localeId } }) {
+        name
+      }
+    }
+    school {
+      translations(where: { localeId: { _eq: $localeId } }) {
+        name
+      }
+    }
+    provenance {
+      translations(where: { localeId: { _eq: $localeId } }) {
+        name
+      }
+    }
+    workExhibitions {
+      exhibition {
+        startDate
+        endDate
+        translations(where: { localeId: { _eq: $localeId } }) {
+          title
+          slug
+        }
+      }
+    }
+    artist {
+      metadata:works_aggregate{
+        info:aggregate{
+          count
+        }
+      }
+      translations(where: { localeId: { _eq: $localeId } }) {
+        name
+        slug
+        description
+      }
+      works(limit: $limit, offset: $offset) {
+        images
+        price
+        forSale
+        translations(where: { localeId: { _eq: $localeId } }) {
+          title
+          slug
+          creationDate
+        }
+      }
+  }
+  }
+}

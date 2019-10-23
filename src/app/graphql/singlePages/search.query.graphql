@@ -1,0 +1,14 @@
+query search(
+  $localeId: String!
+  $searchTerm: String!
+	$limit: Int = 50) {
+  search( where: {
+    limit: $limit
+    localeId: $localeId
+    value:$searchTerm
+  	}) {
+    slug
+    name
+    description
+  }
+}

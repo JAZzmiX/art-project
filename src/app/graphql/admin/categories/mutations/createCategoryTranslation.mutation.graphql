@@ -1,0 +1,21 @@
+mutation createCategoryTranslation(
+  $id: String!,
+  $localeId: String!,
+	$name: String!,
+  $desc: String,
+  $metaTitle: String,
+  $metaDescription: String
+) {
+  createCategoryTranslation(
+    categoryId: $id
+    localeId: $localeId
+    data: {
+      name: $name
+      description: $desc
+      metaTitle: $metaTitle
+      metaDescription: $metaDescription
+    }
+  ) {
+    id
+  }
+}

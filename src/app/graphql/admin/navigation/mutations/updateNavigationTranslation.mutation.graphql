@@ -1,0 +1,17 @@
+mutation updateNavigationTranslation(
+  $navId:String!, 
+  $localeId: String!,
+  $name: String,
+  $link: String,
+) {
+  updateNavigationTranslation(
+    localeId: $localeId
+    navigationId: $navId
+    data: {
+      name: $name
+      link: $link
+    }
+  ) {
+    ok
+  }
+}

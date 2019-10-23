@@ -1,0 +1,11 @@
+<div class="content-wrapper inner-wrapper">
+   <ng-container [ngSwitch]="slugData | async">
+      <app-category *ngSwitchCase="'category'"></app-category>
+      <app-work *ngSwitchCase="'work'"></app-work>
+      <app-artist *ngSwitchCase="'artist'"></app-artist>
+      <app-exhibition *ngSwitchCase="'exhibition'"></app-exhibition>
+      <app-event *ngSwitchCase="'news'"></app-event>
+      <app-page *ngSwitchCase="'page'"></app-page>
+      <app-page-not-found *ngSwitchCase="'notFound'"></app-page-not-found>
+   </ng-container>
+</div>

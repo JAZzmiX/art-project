@@ -1,0 +1,315 @@
+<div class="row">
+    <div class="col-lg-7">
+      <form *ngIf="formUpdate && showUpdate" [formGroup]="formUpdate" (ngSubmit)="onUpdate()">
+        <nb-card>
+          <nb-card-header class="bg-header-section">      
+            <div class="close-modale" (click)="closeUpdateModale()">
+              <nb-icon icon="close-outline"></nb-icon>
+            </div>
+            <span>
+              Обновить
+            </span>
+            <input
+              type="text"
+              class="hide-locale-id"
+              formControlName="id"
+              [(ngModel)]="artistId">
+          </nb-card-header>
+          <nb-card-body *ngIf="artistItem && artistItem[0]">
+            <p><span class="admin-title-desc">Дата создания: </span>{{artistItem[0].createdAt | date : 'dd.MM.yyyy'}}</p>
+          </nb-card-body>
+        </nb-card>
+        <div formArrayName="translatable">
+          <ngb-tabset [justify]="'start'">
+            <ngb-tab *ngFor="let group of localeFormUpdateArray; let i = index;" title="Язык: {{localesList[i].name}}">
+              <ng-template ngbTabContent>
+                <div [formGroupName]="i">
+                  <nb-card>
+                    <nb-card-body *ngIf="
+                      artistItem && artistItem[0].translations.length > 0 && 
+                      artistItem[0].translations[i] === undefined">
+                      <p>Нельзя обновить, нужно создать перевод для этого языка</p>
+                      <button type="button" class="btn" (click)="onShowAddLocale()">Cоздать перевод</button>
+                    </nb-card-body>
+                    <ng-container
+                      *ngIf="
+                        artistItem && artistItem[0].translations.length > 0 && 
+                        artistItem[0].translations[i] !== undefined && 
+                        artistItem[0].translations[i].localeId === localesList[i].id"
+                      >
+                      <nb-card-body>
+                        <nb-card-header>Заголовок</nb-card-header>
+                        <input
+                          type="text"
+                          nbInput
+                          fullWidth
+                          formControlName="name"
+                          [(ngModel)]="artistItem[0].translations[i].name"
+                          fieldSize="small"
+                          placeholder="название"
+                        >
+                      </nb-card-body>
+                      <nb-card-body>
+                        <nb-card-header>Описание</nb-card-header>
+                        <editor
+                          apiKey="e4jfmmhhoz38oweg2rsgfzhi8t00372yyzkzm05tr1ow6wsb"
+                          fullWidth
+                          [(ngModel)]="artistItem[0].translations[i].description"
+                          formControlName="description"
+                          [init]="{
+                              plugins: 'lists advlist link image quickbars',
+                              height: 500,
+                              menu: 'cut',
+                              toolbar: 'undo redo | bold italic | bullist numlist outdent indent link quickimage'
+                            }"
+                          >
+                        </editor>
+                      </nb-card-body>
+                      <nb-card-body>
+                        <nb-card-header>Мета заголовок</nb-card-header>
+                        <input
+                          type="text"
+                          nbInput
+                          fullWidth
+                          formControlName="metaTitle"
+                          [(ngModel)]="artistItem[0].translations[i].metaTitle"
+                          fieldSize="small"
+                          placeholder="название"
+                        >
+                      </nb-card-body>
+                      <nb-card-body>
+                        <nb-card-header>Мета описание</nb-card-header>
+                        <textarea 
+                          nbInput
+                          fullWidth
+                          formControlName="metaDescription"
+                          placeholder="название"
+                          [(ngModel)]="artistItem[0].translations[i].metaDescription"
+                          rows="3"></textarea>
+                      </nb-card-body>
+                    </ng-container>
+                  </nb-card>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+        <nb-card>
+          <nb-card-body>
+            <button class="btn" type="submit" [disabled]="!formUpdate.valid">
+              Обновить
+            </button>
+          </nb-card-body>
+        </nb-card>
+      </form>
+      <form *ngIf="showAddLocale && showUpdate" [formGroup]="formAddLocale" (ngSubmit)="onAddLocale()">
+        <nb-card>
+          <nb-card-header class="bg-header-create-locale-section">
+            <span>
+              Добавить перевод
+            </span>
+            <input
+              type="text"
+              class="hide-locale-id"
+              formControlName="id"
+              [(ngModel)]="artistId">
+          </nb-card-header>
+          <nb-card-body>
+            <nb-select formControlName="localeId" placeholder="Выбрать язык">
+              <nb-option *ngFor="let locale of localesList" [value]="locale.id">{{ locale.name }}</nb-option>
+            </nb-select>
+          </nb-card-body>
+        </nb-card>
+        <div formArrayName="data">
+          <nb-card>
+            <nb-card-body>
+                <nb-card-header>Имя</nb-card-header>
+                <input
+                  type="text"
+                  nbInput
+                  fullWidth
+                  formControlName="name"
+                  fieldSize="small"
+                  placeholder="название"
+                >
+            </nb-card-body>
+            <nb-card-body>
+              <nb-card-header>Описание</nb-card-header>
+              <editor
+                apiKey="e4jfmmhhoz38oweg2rsgfzhi8t00372yyzkzm05tr1ow6wsb"
+                fullWidth
+                formControlName="description"
+                [init]="{
+                    plugins: 'lists advlist link image quickbars',
+                    height: 500,
+                    menu: 'cut',
+                    toolbar: 'undo redo | bold italic | bullist numlist outdent indent link quickimage'
+                  }"
+                >
+              </editor>
+            </nb-card-body>
+            <nb-card-body>
+              <nb-card-header>Мета заголовок</nb-card-header>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                formControlName="metaTitle"
+                fieldSize="small"
+                placeholder="название"
+              >
+            </nb-card-body>
+            <nb-card-body>
+              <nb-card-header>Мета описание</nb-card-header>
+              <textarea 
+                nbInput
+                fullWidth
+                formControlName="metaDescription"
+                placeholder="название"
+                rows="3"></textarea>
+            </nb-card-body>
+          </nb-card>
+        </div>
+        <nb-card>
+          <nb-card-body>
+            <button class="btn" type="submit" [disabled]="!formAddLocale.valid">
+              Добавить перевод
+            </button>
+          </nb-card-body>
+        </nb-card>
+      </form>
+      <form *ngIf="formCreate" [formGroup]="formCreate" (ngSubmit)="onCreate()">
+        <nb-card>
+          <nb-card-header class="bg-header-create-section">
+            <span>
+              Создать художника
+            </span>
+          </nb-card-header>
+        </nb-card>
+        <div formGroupName="translatable">
+          <ngb-tabset [justify]="'start'">
+            <ngb-tab *ngFor="let group of localeFormUpdateArray; let i = index;" title="Язык: {{localesList[i].name}}">
+              <ng-template ngbTabContent>
+                <div [formGroupName]="i">
+                  <nb-card>
+                      <nb-card-body>
+                        <nb-card-header>Имя</nb-card-header>
+                        <input
+                          type="text"
+                          nbInput
+                          fullWidth
+                          formControlName="name"
+                          fieldSize="small"
+                          placeholder="имя"
+                        >
+                      </nb-card-body>
+                      <nb-card-body>
+                        <nb-card-header>Описание</nb-card-header>
+                        <editor
+                          apiKey="e4jfmmhhoz38oweg2rsgfzhi8t00372yyzkzm05tr1ow6wsb"
+                          fullWidth
+                          formControlName="description"
+                          [init]="{
+                              plugins: 'lists advlist link image quickbars',
+                              height: 500,
+                              menu: 'cut',
+                              toolbar: 'undo redo | bold italic | bullist numlist outdent indent link quickimage'
+                            }"
+                          >
+                        </editor>
+                      </nb-card-body>
+                      <nb-card-body>
+                        <nb-card-header>Дата</nb-card-header>
+                        <input
+                          type="text"
+                          nbInput
+                          fullWidth
+                          formControlName="date"
+                          fieldSize="small"
+                          placeholder="дата"
+                        >
+                      </nb-card-body>
+                      <nb-card-body>
+                        <nb-card-header>Мета заголовок</nb-card-header>
+                        <input
+                          type="text"
+                          nbInput
+                          fullWidth
+                          formControlName="metaTitle"
+                          fieldSize="small"
+                          placeholder="имя"
+                        >
+                      </nb-card-body>
+                      <nb-card-body>
+                        <nb-card-header>Мета описание</nb-card-header>
+                        <textarea 
+                          nbInput
+                          fullWidth
+                          formControlName="metaDescription"
+                          placeholder="описание"
+                          rows="3"></textarea>
+                      </nb-card-body>
+                  </nb-card>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+        <nb-card>
+          <nb-card-body>
+            <button class="btn" type="submit" [disabled]="!formCreate.valid">
+              Создать
+            </button>
+          </nb-card-body>
+        </nb-card>
+      </form>
+    </div>
+    <div class="col-lg-5">
+      <nb-card>
+        <nb-card-body>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Поиск"
+              ngModel
+              (ngModelChange)="onSearchTerm($event)"
+            >
+        </nb-card-body>
+      </nb-card>
+      <ng-container *ngFor="let item of artistListQuery | async">
+        <nb-card>
+            <ng-container>
+            <nb-card-header>
+              <span *ngIf="item.translations && item.translations.length > 0">
+                <button
+                  (click)="getNewsId(item.id)"
+                  class="btn"
+                  type="button">
+                  <nb-icon icon="edit-2-outline"></nb-icon>
+                </button>
+                <button
+                  class="btn"
+                  type="button"
+                  [nbPopover]="templateRef"
+                >
+                  <nb-icon icon="trash-2-outline"></nb-icon>
+                </button>
+                <ng-template #templateRef>
+                  <div class="delete-item-section">
+                    <p *ngIf="item.translations.length > 0" >Удалить <b>"{{ item.translations[0].name }}"</b> ?</p>
+                    <p *ngIf="item.translations.length === 0" >Удалить?</p>
+                    <div class="btn-flex-sction">
+                      <button nbButton (click)="onRemoveNews(item.id)" status="danger">Удалить</button>
+                    </div>
+                  </div>
+                </ng-template>
+                <a class="red-link" [routerLink]="['/'+ item.translations[0].slug]" target="_blank">
+                  {{ item.translations[0].name }}
+                </a>
+              </span>
+            </nb-card-header>
+          </ng-container>
+        </nb-card>
+      </ng-container>
+    </div>
+  </div>

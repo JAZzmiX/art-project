@@ -1,0 +1,5 @@
+mutation createArtist($artistPhoto: Upload) {
+  createArtist(photo: $artistPhoto) {
+    id
+  }
+}

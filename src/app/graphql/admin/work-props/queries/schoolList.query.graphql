@@ -1,0 +1,11 @@
+query schoolList($localeId: uuid) {
+  school {
+    id
+    translations(where: {
+        localeId: {_eq: $localeId}
+      }){
+      name
+      localeId
+    }
+  }
+}

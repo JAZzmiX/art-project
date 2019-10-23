@@ -1,0 +1,45 @@
+<app-loading class="app-loading" *ngIf="showSpinner"></app-loading>
+<div [ngClass]="showSpinner ? 'content-loading' : 'content-loaded'">
+  <div class="row content-center">
+    <ng-container *ngFor="let card of worksCards | async" >
+      <div class="card"
+          class="col-lg-3 col-md-6 col-sm-12 card-wrapper"
+          *ngIf="card && card.translations.length > 0">
+        <a class="card-img" 
+            [routerLink]="['/' + card.translations[0].slug]"
+            *ngIf="card.images.length > 0 && card.translations.length > 0">
+            <img
+              :[src]="card.images[0].thumbnail | imagePathReplacer:'works'"
+              alt="{{card.translations[0].title}}"
+            > 
+        </a>
+        <div class="text-wrapper">
+          <div class="top-text" *ngIf="card.artist && card.artist.translations.length > 0; else emptyDivData">
+            <span *ngIf="translation && translation.workAuthor">{{ translation.workAuthor.value }}</span>
+            <a [routerLink]="['/' + card.artist.translations[0].slug]">
+              {{ card.artist.translations[0].name }}
+            </a>
+          </div>
+          <div class="middle-text" *ngIf="card.translations.length > 0">
+            <span *ngIf="translation && translation.workName">{{ translation.workName.value }}</span>
+            <p>{{ card.translations[0].title }}</p>
+          </div>
+          <div class="middle-text" *ngIf="card.translations.length > 0">
+            <span *ngIf="translation && translation.exhibDate">{{ translation.exhibDate.value }}</span>
+            <p  *ngIf="card.translations[0].creationDate; else emptyData">{{ card.translations[0].creationDate }}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #emptyData>
+  <p> - </p>
+</ng-template>
+<ng-template #emptyDivData>
+  <div class="top-text">
+    <span *ngIf="translation && translation.workAuthor">{{ translation.workAuthor.value }}</span>
+    <a> - </a>
+  </div>
+</ng-template>

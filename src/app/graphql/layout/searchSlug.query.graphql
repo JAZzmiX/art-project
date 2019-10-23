@@ -1,0 +1,44 @@
+query SearchSlug($localeId: uuid, $slug: String) {
+  category(where: { translations: { slug: { _eq: $slug } } }) {
+    translations(where: { localeId: { _eq: $localeId } }) {
+      categoryId
+      slug
+      name
+    }
+  }
+  work(where: { translations: { slug: { _eq: $slug } } }) {
+    translations(where: { localeId: { _eq: $localeId } }) {
+      id
+      title
+      slug
+    }
+  }
+  exhibition(where: { translations: { slug: { _eq: $slug } } }) {
+    translations(where: { localeId: { _eq: $localeId } }) {
+      id
+      title
+      slug
+    }
+  }
+  artist(where: { translations: { slug: { _eq: $slug } } }) {
+    translations(where: { localeId: { _eq: $localeId } }) {
+      id
+      name
+      slug
+    }
+  }
+  news(where: { translations: { slug: { _eq: $slug } } }) {
+    translations(where: { localeId: { _eq: $localeId } }) {
+      id
+      title
+      slug
+    }
+  }
+  page(where: { translations: { slug: { _eq: $slug } } }) {
+    translations(where: { localeId: { _eq: $localeId } }) {
+      id
+      title
+      slug
+    }
+  }
+}

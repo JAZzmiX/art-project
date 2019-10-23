@@ -1,0 +1,25 @@
+query ExhibitionList($localeId: uuid, $limit: Int = 1) {
+  exhibition(limit: $limit, where: { showInMainPage: { _eq: true } }) {
+    id
+    image
+    startDate
+    endDate
+    translations(where: { localeId: { _eq: $localeId } }) {
+      title
+      slug
+      id
+    }
+    exhibitionWorks(limit: 1) {
+      work{
+        artist {
+          translations(where: { localeId: { _eq: $localeId } }) {
+            id
+            slug
+            name
+          }
+        }
+      }
+    }
+  }
+}
+

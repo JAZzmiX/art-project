@@ -1,0 +1,15 @@
+mutation createExhibitionFile(
+  $localeId: String!,
+  $file: Upload!
+  $exhibitionId: String
+) {
+  createFile(
+    file: $file
+    data: {
+      exhibitionId: $exhibitionId
+      localeId: $localeId
+    }) {
+    file
+    id
+  }
+}

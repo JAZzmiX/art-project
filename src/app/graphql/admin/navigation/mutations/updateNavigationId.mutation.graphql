@@ -1,0 +1,21 @@
+mutation updateNavigationId(
+  $navId: String!,
+  $navItemOn: Boolean, 
+  $showInHeader: Boolean, 
+  $showInFooter: Boolean,
+  $floatNav: NAVIGATION_FLOATS,
+  $parentId: String
+) {
+  updateNavigation(
+    id: $navId
+    data: {
+      isEnabled: $navItemOn
+      showInHeader: $showInHeader
+      showInFooter: $showInFooter
+      float: $floatNav
+      parentId: $parentId
+    }
+  ) {
+    ok
+  }
+}

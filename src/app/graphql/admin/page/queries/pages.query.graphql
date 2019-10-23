@@ -1,0 +1,14 @@
+query pages($localeId: uuid!, $searchTerm: String, $limit: Int = 20, $offset: Int) {
+  page(where: {translations: { title:{ _ilike: $searchTerm }}}) {
+    id
+    translations(
+        limit: $limit
+        offset: $offset
+        where: {localeId: {_eq: $localeId}}
+      ) {
+    	title
+      slug
+      body
+    }
+  }
+}

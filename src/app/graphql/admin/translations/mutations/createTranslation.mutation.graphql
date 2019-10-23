@@ -1,0 +1,12 @@
+mutation createTranslation($key: String!, $value: String!, $localeId: String!, $page: Pages!) {
+  createTranslation(
+    data: {
+      key: $key
+      value: $value
+      localeId: $localeId,
+      page: $page
+    }
+  ) {
+    id
+  }
+}

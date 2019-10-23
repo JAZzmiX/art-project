@@ -1,0 +1,9 @@
+
+<app-loading class="app-loading" *ngIf="showSpinner"></app-loading>
+<div [ngClass]="showSpinner ? 'content-loading' : 'content-loaded'">
+    <ul *ngFor="let props of eventList | async ">
+      <li *ngIf="props" >
+        <a class="event" [routerLink]="['/' + props.slug]">{{ props.title }}</a>
+      </li>
+    </ul>
+</div>

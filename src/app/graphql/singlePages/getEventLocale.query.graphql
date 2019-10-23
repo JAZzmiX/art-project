@@ -1,0 +1,12 @@
+query getEventLocale($localeId: uuid, $slug: String) {
+  news (where: {
+    translations: { slug: { _eq: $slug} }
+  }) {
+    translations(where: { localeId: {_eq: $localeId }  })  {
+      metaDescription
+      metaTitle
+      title
+      body
+    }
+  }
+}

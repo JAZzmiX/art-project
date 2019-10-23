@@ -1,0 +1,16 @@
+mutation createSchoolLocale(
+  $shoolId: String!,
+  $localeId: String!,
+  $name: String!
+  
+) {
+  createSchoolTranslation(
+    schoolId: $shoolId
+    localeId: $localeId
+    data: {
+      name: $name
+    }
+  ) {
+    id
+  }
+}

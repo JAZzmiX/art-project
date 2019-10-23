@@ -1,0 +1,10 @@
+overwrite: true
+schema: "http://157.230.123.137/graphql"
+documents: "src/**/*.graphql"
+generates:
+  src/app/generated/graphql.ts:
+    plugins:
+      - add: '/* tslint:disable */'
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-apollo-angular"

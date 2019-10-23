@@ -1,0 +1,22 @@
+mutation cratePageLocale (
+  $localeId: String!,
+  $pageId: String!,
+  $title: String!,
+  $desc: String,
+  $metaTitle: String,
+  $metaDescription: String) {
+  createPageTranslation(
+    pageId: $pageId
+    localeId: $localeId
+    data: {
+    title: $title
+    body: $desc
+    metaTitle: $metaTitle
+    metaDescription: $metaDescription
+    }) {
+		id
+    slug
+    metaTitle
+    metaDescription
+  }
+}

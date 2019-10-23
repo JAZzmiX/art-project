@@ -1,0 +1,35 @@
+query Navigation($localeId: uuid) {
+  navigationI18n(
+    where: {
+      localeId: {
+        _eq: $localeId
+      }
+      navigation:{
+        parentId:{
+          _is_null:true
+        }
+      }
+    }
+    order_by: { navigation: { position: asc_nulls_first } }
+  ){
+    link
+    name
+    navigation {
+      id
+      position
+      showInFooter
+      showInHeader
+      float
+      descendants {
+        showInFooter
+      	showInHeader
+        position
+        float
+        translations(where: { localeId: { _eq: $localeId } }) {
+          name
+          link
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+query getExhibitionList(
+	$localeId: uuid,
+  $searchTerm: String,
+  $limit: Int = 20, 
+  $offset: Int = 0, 
+) {
+  exhibition(
+    where: {translations: { title:{ _ilike: $searchTerm }}}
+    order_by: { createdAt: asc }
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    createdAt
+    image
+    translations(where: {localeId: {_eq: $localeId}})  {
+      title
+      slug
+      metaTitle
+      metaDescription
+    }
+  }
+}

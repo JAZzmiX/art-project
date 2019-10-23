@@ -1,0 +1,71 @@
+<app-loading class="app-loading" *ngIf="showSpinner"></app-loading>
+<div [ngClass]="showSpinner ? 'content-loading' : 'content-loaded'">
+  <div class="container">
+    <div class="row">
+      <ng-container *ngFor="let props of artist">
+        <h1>{{ props.name }}</h1>
+        <div class="article-works" [innerHTML]="props.description"></div>
+      </ng-container>
+    </div>
+  </div>
+  <div
+    class="scroller-wrapper-works imageFullWrapper"
+    ngxInfiniteScroller
+    *ngIf="browser | async"
+    (onScrollDown)="onMoreWorks()"
+    strategy="scrollingToBottom"
+  >
+    <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <ul class="mdc-image-list mdc-image-list--masonry masonry-image-list">
+              <li
+                class="mdc-image-list__item"
+                *ngFor="let props of artistWorks" >
+                <div class="gallery-item">
+                  <a [routerLink]="['/' + props.translations[0].slug]" >
+                    <img src="{{props.images[0].thumbnail | imagePathReplacer:'works'}}"  />
+                  </a>
+                  <div class="gallery-description">
+                      <ng-container *ngIf="props">
+                        <div class="work-props">
+                          <span *ngIf="translation && translation.workName">{{translation.workName.value}}</span>
+                          <p> {{ props.translations[0].title }} </p>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="props">
+                          <div class="work-props">
+                            <span *ngIf="translation && translation.exhibDate">{{ translation.exhibDate.value }}</span>
+                            <p *ngIf="props.translations[0].creationDate; else emptyData"> {{ props.translations[0].creationDate }} </p>
+                          </div>
+                      </ng-container>
+                      <ng-container *ngIf="props.forSale">
+                          <div class="work-props">
+                            <span>Цена:</span>
+                              <p> {{ props.price }} </p>
+                          </div>
+                          <a [routerLink]="['/' + props.translations[0].slug]" class="btn w-100 large-btn">Продается</a>
+                      </ng-container>
+                    </div>
+                </div>
+              </li>
+            </ul>
+            <div *ngIf="loading" class=" loader-container-works">
+                <div class="loader">loading...</div>
+            </div>
+            <!-- <div class="col-12">
+              <div class="more-article btn large-btn" 
+                    (click)="onMoreWorks()"  
+                    *ngIf="!hiddenBtnMoreWorks && translation && translation.workMoreBtn">
+                {{translation.workMoreBtn.value}}
+                <span>&rsaquo;</span>
+              </div>
+            </div> -->
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<ng-template #emptyData>
+  <p> - </p>
+</ng-template>

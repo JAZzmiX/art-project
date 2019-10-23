@@ -1,0 +1,22 @@
+mutation createArtistTranslation(
+  $artistId: String!,
+  $localeId: String!,
+  $name: String!,
+  $desc:String,
+  $date:String
+  $metaTitle: String,
+  $metaDesc: String
+) {
+  createArtistTranslation(
+    artistId: $artistId
+    localeId: $localeId
+    data: {
+      name: $name
+      description: $desc
+      date: $date
+      metaTitle: $metaTitle
+      metaDescription: $metaDesc
+  	}) {
+    id
+  }
+}

@@ -1,0 +1,17 @@
+query categoryIdList($catId: uuid) {
+  category(where: { id: { _eq: $catId } }) {
+    id
+    artistCategories(limit: 1) {
+     categoryId
+    }
+    categoryWorks(limit: 1) {
+      categoryId
+    }
+    exhibitionCategories(limit: 1) {
+   		categoryId
+    }
+    newsCategories (limit: 1) {
+      categoryId
+    }
+  }
+}

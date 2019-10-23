@@ -1,0 +1,16 @@
+query ButtonsSlugs(
+  $catEvent: uuid!
+  $catArtist: uuid!
+  $catExhib: uuid!
+  $catShop: uuid!
+  $localeId: uuid!
+) {
+  categoryI18n(
+    where: {
+      categoryId: { _in: [$catArtist, $catEvent, $catExhib, $catShop] }
+      localeId: { _eq: $localeId }
+    }
+  ) {
+    slug
+  }
+}

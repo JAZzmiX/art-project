@@ -1,0 +1,11 @@
+query techniqueList($localeId: uuid) {
+  technique {
+    id
+    translations(where: {
+        localeId: {_eq: $localeId}
+      }){
+      name
+      localeId
+    }
+  }
+}

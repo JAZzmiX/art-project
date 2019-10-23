@@ -1,0 +1,50 @@
+<app-loading class="app-loading" *ngIf="showSpinner"></app-loading>
+<div class="container">
+  <div [ngClass]="showSpinner ? 'content-loaded' : 'сontent-loaded'">
+    <div class="row">
+      <div class="col-lg-3 category-search-title">
+            <ng-container *ngIf="titleDesc">
+              <h1>{{ titleDesc }}</h1>
+            </ng-container>
+      </div>
+      <div class="col-lg-9 search-flex">
+        <ng-container *ngIf="translation && translation.headerSearch">
+          <input type="text" class="form-control" [placeholder]="translation.headerSearch.value" ngModel (ngModelChange)="filterTitle($event)">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+class="scroller-wrapper-cat"
+ngxInfiniteScroller
+*ngIf="browser | async"
+(onScrollDown)="getArtists()">
+  <div class="container">
+    <div class="row content-center">
+        <ng-container *ngFor="let card of artistList">
+            <ng-container *ngIf="card">
+                <div class="card col-lg-4 col-md-6 col-sm-12 card-wrapper">
+                <div class="text-wrapper" >
+                    <a [routerLink]="['/' + card.slug]" class="event-scroll">{{ card.name }}</a>
+                  <div class="body-scroll">
+                    <div [innerHTML]="card.metaDescription"></div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+        </ng-container>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <ng-container *ngIf="categoryDesc">
+      <div class="col-lg-12">
+        <div [innerHTML]="categoryDesc"></div>
+      </div>
+    </ng-container>
+  </div>
+</div>

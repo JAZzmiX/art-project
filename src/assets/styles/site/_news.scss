@@ -1,0 +1,14 @@
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.event {
+  font-size: 0.875rem;
+  color: #909090;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+    color: var(--active-color); 
+  }
+}

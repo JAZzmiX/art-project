@@ -1,0 +1,17 @@
+mutation createCategory(
+  $photo: Upload,
+  $parentId: String,
+  $showInShop: Boolean,
+  
+) {
+  createCategory(
+    photo: $photo
+    data: {
+      parentId: $parentId
+      showInShop: $showInShop
+    }
+  ) {
+    id
+    photo
+  }
+}

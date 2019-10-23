@@ -1,0 +1,11 @@
+query basisList($localeId: uuid) {
+  basis {
+    id
+    translations(where: {
+        localeId: {_eq: $localeId}
+      }){
+      name
+      localeId
+    }
+  }
+}

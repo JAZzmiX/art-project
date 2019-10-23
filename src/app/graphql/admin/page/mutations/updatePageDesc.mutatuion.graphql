@@ -1,0 +1,21 @@
+mutation updatePageMutation(
+  $localeId: String!
+  $pageId: String!
+  $title: String!
+  $desc: String
+  $metaTitle: String
+  $metaDescription: String
+) {
+  updatePageTranslation(
+    pageId: $pageId
+    localeId: $localeId
+    data: {
+      title: $title
+      body: $desc
+      metaTitle: $metaTitle
+      metaDescription: $metaDescription
+    }
+  ) {
+    ok
+  }
+}

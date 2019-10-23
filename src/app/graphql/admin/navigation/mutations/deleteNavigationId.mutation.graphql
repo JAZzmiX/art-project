@@ -1,0 +1,7 @@
+mutation deleteNavigationId($navId: String!) {
+  deleteNavigation(
+   id: $navId
+  ) {
+    deleted
+  }
+}

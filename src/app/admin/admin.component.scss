@@ -1,0 +1,17 @@
+.locale-admin{
+  width: 100px;
+  display: flex;
+  margin-left: 1rem;
+  align-items: center;
+  p {
+    margin: 0 0.5rem 0 0;
+  }
+  select {
+    width: 50px;
+  }
+}
+.user-nav {
+  button {
+    margin: 0.5rem;
+  }
+}

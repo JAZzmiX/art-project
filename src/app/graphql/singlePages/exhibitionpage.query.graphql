@@ -1,0 +1,51 @@
+query getExhibitionLocale($slug: String!, $localeId: uuid!, $limit: Int = 10, $offset: Int!) {
+  exhibition(where: { translations: { slug: { _eq: $slug } } }) {
+    id
+    image
+    startDate
+    endDate
+    metadata:exhibitionWorks_aggregate{
+      info:aggregate{
+        count
+      }
+    }
+    files(where: { localeId: { _eq: $localeId } }) {
+      id
+      title
+      slug
+      localeId
+      fileName
+    }
+    translations(where: { localeId: { _eq: $localeId } }) {
+      id
+      slug
+      metaTitle
+      title
+      metaDescription
+      body
+      localeId
+    }
+    exhibitionWorks(limit: $limit, offset: $offset) {
+      work {
+        images
+        price
+        forSale
+        translations(
+          where: { localeId: { _eq: $localeId } }
+          order_by: { title: asc }
+        ) {
+          title
+          localeId
+          slug
+          creationDate
+        }
+        artist {
+          translations(where: { localeId: { _eq: $localeId } }) {
+            name
+            slug
+          }
+        }
+      }
+    }
+  }
+}

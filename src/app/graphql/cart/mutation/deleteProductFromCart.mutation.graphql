@@ -1,0 +1,5 @@
+mutation deleteProductFromCart($cartProductId: String!) {
+	deleteProductFromCart(id: $cartProductId) {
+    deleted
+  }
+}

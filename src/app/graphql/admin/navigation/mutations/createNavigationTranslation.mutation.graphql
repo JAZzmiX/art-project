@@ -1,0 +1,16 @@
+mutation createNavigationTranslation(
+  $navId: String!,
+  $localeId: String!,
+	$name: String!,
+	$link: String) {
+  createNavigationTranslation(
+    localeId: $localeId
+    navigationId: $navId
+    data: {
+      name: $name
+      link: $link
+    }
+  ) {
+    id
+  }
+}

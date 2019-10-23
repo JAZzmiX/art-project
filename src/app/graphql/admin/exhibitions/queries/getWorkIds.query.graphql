@@ -1,0 +1,23 @@
+query getWorkIds($searchWork: String, $localeId: uuid) {
+  work{
+    id
+    images
+    translations(
+      where: {
+        title: { _ilike: $searchWork }
+        localeId: {_eq: $localeId}
+      }) {
+      title
+      slug
+      localeId
+    }
+    artist {
+      translations(
+        where: { localeId: {_eq: $localeId}}) {
+        name
+        localeId
+        slug
+      }
+    }
+  }
+}

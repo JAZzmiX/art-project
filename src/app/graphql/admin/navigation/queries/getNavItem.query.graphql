@@ -1,0 +1,18 @@
+query getNavItem($navId: uuid!) {
+  navigation (
+    where: {
+      id: {_eq: $navId}
+    }){
+    position
+    showInFooter
+    showInHeader
+    float
+    id
+    translations(order_by: {localeId:asc}){
+      name
+      id
+      link
+      localeId
+    }
+  }
+}

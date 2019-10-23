@@ -1,0 +1,21 @@
+mutation updateCategoryTranslation(
+  $catId: String!,
+  $localeId: String!,
+  $name: String
+  $desc: String,
+  $metaTitle: String,
+  $metaDescription: String
+) {
+  updateCategoryTranslation(
+    categoryId: $catId
+    localeId: $localeId
+    data: {
+      name: $name
+      description: $desc
+      metaTitle: $metaTitle
+      metaDescription: $metaDescription
+    }
+  ) {
+    ok
+  }
+}

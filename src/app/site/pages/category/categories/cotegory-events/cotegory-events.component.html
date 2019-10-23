@@ -1,0 +1,21 @@
+<div class="container">
+  <app-category-description></app-category-description>
+</div>
+<div
+    class="scroller-wrapper-works"
+    ngxInfiniteScroller
+    *ngIf="browser | async"
+    (onScrollDown)="getEvent()"
+  >
+  <div class="container">
+    <div class="row">
+        <div class="scroll-item col-lg-4" *ngFor="let item of eventsList">
+            <a [routerLink]="['/' + item.slug]" class="event-scroll">{{item.title}}</a>
+            <div [innerHTML]="item.metaDescription" class="body-scroll"></div>
+        </div>
+        <div *ngIf="loading" class="col-lg-4 loader-container">
+          <div class="loader">loading...</div>
+        </div>
+      </div>
+  </div>
+</div>

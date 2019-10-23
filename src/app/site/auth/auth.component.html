@@ -1,0 +1,58 @@
+<div class="content-wrapper inner-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-6 offset-md-3 login-wrapper">
+        <div *ngIf="error" class="alert alert-danger">
+          <p>{{ error }}</p>
+        </div>
+        <div class="spinner-wrapper" *ngIf="isLoading">
+          <app-loading></app-loading>
+        </div>
+        <form  class="login-form" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading">
+          <h5>Войти</h5>
+          <div class="form-group">
+            <label for="email">E-Mail</label>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              ngModel
+              name="email"
+              required
+              email
+            />
+          </div>
+          <div class="form-group">
+            <label for="password">Пароль</label>
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              ngModel
+              name="password"
+              required
+              minlength="5"
+            />
+          </div>
+          <div>
+            <button
+              class="btn btn-primary"
+              type="submit"
+              [disabled]="!authForm.valid"
+            >
+            Войти
+            </button>
+            <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onLogout()"
+            >
+              Выход
+            </button>
+          </div>
+        </form>
+       
+      </div>
+    </div>
+  </div>
+</div>

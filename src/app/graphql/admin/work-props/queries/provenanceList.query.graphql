@@ -1,0 +1,11 @@
+query provenanceList($localeId: uuid) {
+  provenance {
+    id
+    translations(where: {
+        localeId: {_eq: $localeId}
+      }){
+      name
+      localeId
+    }
+  }
+}

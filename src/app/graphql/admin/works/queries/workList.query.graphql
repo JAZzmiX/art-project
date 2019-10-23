@@ -1,0 +1,27 @@
+query workList(
+  $localeId: uuid,
+  $searchTerm: String,
+  $limit: Int = 50, 
+  $offset: Int = 0,
+) {
+  work(
+    where: {translations: { title:{ _ilike: $searchTerm }}}
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    price
+    images
+    showInMainPage
+    translations(where: {localeId: {_eq: $localeId}}) {
+      title
+      slug
+    }
+    artist {
+      translations(where: {localeId: {_eq: $localeId}}) {
+        name
+        slug
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+query getArtistList(
+  $localeId: uuid, 
+  $limit: Int = 20, 
+  $offset: Int = 0, 
+  $searchTerm: String) {
+  artist(
+    where: {translations: { name:{ _ilike: $searchTerm }}}
+    order_by: { createdAt: asc }
+    limit: $limit
+    offset: $offset
+  ) {
+    id
+    createdAt
+    translations(where: {localeId: {_eq: $localeId}})  {
+      name
+      description
+      slug
+      date
+      metaTitle
+      metaDescription
+      date
+    }
+    works {
+      id
+    	images
+      translations(where: {localeId: {_eq: $localeId}}) {
+        title
+        slug
+      }
+    }
+  }
+}

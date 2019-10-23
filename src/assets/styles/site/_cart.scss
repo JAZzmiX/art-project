@@ -1,0 +1,68 @@
+.shopping-cart {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  top: 60px;
+  right: 0;
+  width: 130px;
+  height: 68px;
+  max-width: 200px;
+  border: none;
+  color: var(--white-color);
+  background: var(--active-color);
+  &:focus {
+    outline: none;
+  }
+
+  span {
+    margin-left: 0.6rem;
+  }
+}
+
+.product{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  img {
+    width: 100px;
+  }
+  .product-article {
+    display: block;
+    width: 100%;
+    text-align: left;
+
+    p, a {
+      padding-left: 1rem;
+      font-size: 0.875rem;
+      span {
+        color: #909090;
+      }
+    }
+
+    a {
+      color: var(--active-color);
+    }
+
+    p, a{
+      width: 100%;
+      display: block;
+    }
+  }
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.modal-header {
+  .close {
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+::ng-deep .modal-content {
+  border-radius: 0;
+}

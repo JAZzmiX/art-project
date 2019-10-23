@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-lg navbar-light fixed-top ">
+  <a class="navbar-brand"
+    [routerLink]="['/']"  
+  >
+    <img
+      src="assets/images/logo.svg"
+      alt="nuart.com.ua"
+    >
+    <ng-container *ngIf="translation && translation.headerSiteName">
+      <span>{{ translation.headerSiteName.value }}</span>
+    </ng-container>
+  </a>
+  <button class="btn" type="button"  [routerLink]="['/admin']" *ngIf="isAuthorized">Админка</button>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-label="Toggle navigation"
+    (click)="isCollapsed = !isCollapsed"
+    [attr.aria-expanded]="!isCollapsed"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div
+    class="collapse navbar-collapse"
+    id="navbarSupportedContent"
+    [ngbCollapse]="isCollapsed"
+  >
+
+    <ul class="nav navbar-nav ml-auto">
+      <li class="nav-item" >
+          <div  *ngIf="showSpinner" [ngClass]="showSpinner ? 'nav-link loader' : 'nav-link'">loading...</div>
+      </li>
+      <ng-container *ngFor="let item of navigationHeader" >
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="item.navigation.showInHeader" [routerLink]="['/' + item.link]" routerLinkActive="nav-active" > {{ item.name }} </a>
+        </li>
+        <!-- <li class="nav-item" *ngIf="!item.navigation || item.navigation.descendants.length === 0">
+          <a class="nav-link" *ngIf="item.navigation.showInHeader" [routerLink]="['/' + item.link]" routerLinkActive="nav-active" > {{ item.name }} </a>
+        </li> -->
+        <!-- <ng-container *ngIf="item.navigation.descendants && item.navigation.descendants.length > 0">
+            <li
+            class="nav-item dropdown"
+            ngbDropdown
+            >
+              <a
+                class="nav-link dropdown-toggle"
+                id="navbarDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                [routerLink]="['/' + item.link]"
+                routerLinkActive="nav-active"
+                ngbDropdownToggle
+                *ngIf="item.navigation.showInHeader"
+              >{{ item.name }}</a>
+              <div
+                ngbDropdownMenu
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdown"
+              >
+                <a
+                  *ngFor="let itemDes of item.navigation.descendants" 
+                  class="dropdown-item"
+                  [routerLink]="['/' + itemDes.translations[0].link]"
+                  routerLinkActive="nav-active"
+                >{{ itemDes.translations[0].name }}</a>
+              </div>
+            </li>
+        </ng-container> -->
+      </ng-container>
+      <ng-container *ngIf="translation && translation.headerSearch">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/search']" routerLinkActive="nav-active">{{translation.headerSearch.value}}</a>
+        </li>
+      </ng-container>
+      <li class="nav-item">
+        <select
+          class="form-control"
+          id="select-lang"
+          (change)="changeLang($event.target.value)"
+        >
+          <ng-container *ngIf="isDefaultLang">
+              <option [value]="isDefaultLang.id" selected hidden="hidden" >{{ isDefaultLang.name }}</option>
+          </ng-container>
+          <option *ngFor="let lang of languages | async" [value]="lang.id" [selected]="lang.id === isActiveLocale">{{ lang.name }}</option>
+        </select>
+      </li>
+    </ul>
+  </div>
+</nav>

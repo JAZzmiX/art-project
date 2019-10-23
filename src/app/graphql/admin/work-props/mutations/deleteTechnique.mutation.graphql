@@ -1,0 +1,5 @@
+mutation deleteTechnique($id: String!) {
+  deleteTechnique(id: $id) {
+    deleted
+  }
+}

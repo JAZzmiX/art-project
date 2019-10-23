@@ -1,0 +1,300 @@
+<div class="row">
+  <div class="col-lg-5">
+    <form *ngIf="showUpdate && formUpdate" [formGroup]="formUpdate" (ngSubmit)="onUpdate()">
+      <nb-card>
+        <nb-card-header class="bg-header-section">
+          <div class="close-modale" (click)="closeUpdateModale()">
+            <nb-icon icon="close-outline"></nb-icon>
+          </div>
+          <span>
+            Обновить пункт меню
+          </span>
+        </nb-card-header>
+        <nb-card-body>
+          <nb-card-header>
+            Сортировка
+          </nb-card-header>
+          <div class="flex-col">
+            <nb-select
+            *ngIf="navIdList && navIdList[0]"
+            class="select-translate" 
+            placeholder="слева/справа если в подвале" 
+            formControlName="float"
+            [(ngModel)]="navIdList[0].float"
+            [(selected)]="navIdList[0].float">
+              <nb-option value="left">Слева(подвал)</nb-option>
+              <nb-option value="right">Справа(подвал)</nb-option>
+            </nb-select>
+            <input
+              type="number"
+              nbInput
+              fullWidth
+              formControlName="position"
+              *ngIf="navIdList && navIdList[0]"
+              [(ngModel)]="navIdList[0].position"
+              fieldSize="small"
+              placeholder="Позиция"
+            >
+            <input
+              type="text"
+              class="hide-locale-id"
+              formControlName="id"
+              *ngIf="navIdList && navIdList[0]"
+              [(ngModel)]="navIdList[0].id"
+            >
+          </div>
+        </nb-card-body>
+        <nb-card-body>
+          <nb-checkbox 
+            *ngIf="navIdList && navIdList[0]" 
+            [checked]="navIdList[0].showInHeader"
+            formControlName="showInHeader"
+            [(ngModel)]="navIdList[0].showInHeader"
+            status="primary">Верхнее меню</nb-checkbox>
+          <nb-checkbox 
+            *ngIf="navIdList && navIdList[0]" 
+            [checked]="navIdList[0].showInFooter"
+            formControlName="showInFooter"
+            [(ngModel)]="navIdList[0].showInFooter"
+            status="primary">Подвал меню</nb-checkbox>
+        </nb-card-body>
+      </nb-card>
+      <div formArrayName="translatable">
+        <ngb-tabset [justify]="currentJustify">
+          <ngb-tab *ngFor="let group of localeFormUpdateArray; let i = index;" title="Язык: {{localesList[i].name}}">
+            <ng-template ngbTabContent>
+              <div [formGroupName]="i">
+                <nb-card>
+                    <nb-card-body *ngIf="
+                      navIdList && navIdList[0].translations.length > 0 && 
+                      navIdList[0].translations[i] === undefined">
+                      <p>
+                        Нельзя обновить, нужно создать перевод для этого языка
+                      </p>
+                      <button type="button" class="btn" (click)="onShowAddLocale()">Cоздать перевод</button>
+                    </nb-card-body>
+                    <nb-card-body *ngIf="
+                      navIdList && navIdList[0].translations.length > 0 && 
+                      navIdList[0].translations[i] !== undefined && 
+                      navIdList[0].translations[i].localeId === localesList[i].id">
+                      <nb-card-header>Имя</nb-card-header>
+                      <input
+                        type="text"
+                        nbInput
+                        fullWidth
+                        formControlName="name"
+                        [(ngModel)]="navIdList[0].translations[i].name"
+                        fieldSize="small"
+                        placeholder="название"
+                      >
+                    </nb-card-body>
+                    <nb-card-body *ngIf="
+                      navIdList && navIdList[0].translations.length > 0 && 
+                      navIdList[0].translations[i] !== undefined && 
+                      navIdList[0].translations[i].localeId === localesList[i].id">
+                      <nb-card-header>Ссылка</nb-card-header>
+                      <input
+                        type="text"
+                        nbInput
+                        fullWidth
+                        formControlName="link"
+                        [(ngModel)]="navIdList[0].translations[i].link"
+                        fieldSize="small"
+                        placeholder="ссылка"
+                      >
+                    </nb-card-body>
+                </nb-card>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+      <nb-card>
+        <nb-card-body>
+          <button class="btn" type="submit" [disabled]="!formUpdate.valid">
+            Обновить
+          </button>
+        </nb-card-body>
+      </nb-card>
+    </form>
+    <form *ngIf="createLocaleForm && ShowAddLocale" [formGroup]="createLocaleForm" (ngSubmit)="onSetLocale()">
+      <nb-card>
+        <nb-card-header class="bg-header-create-locale-section">
+          <span>
+            Создать перевод
+          </span>
+          <input
+            type="text"
+            class="hide-locale-id"
+            formControlName="id"
+            [(ngModel)]="navExistId"
+          >
+        </nb-card-header>
+        <nb-card-body>
+          <nb-select formControlName="localeId" placeholder="Выбрать язык">
+            <nb-option *ngFor="let locale of localesList" [value]="locale.id">{{ locale.name }}</nb-option>
+          </nb-select>
+        </nb-card-body>
+        <ng-container formGroupName="dataCreateLocale">
+            <nb-card-body>
+              <nb-card-header>Имя</nb-card-header>
+              <input
+                type="text"
+                nbInput
+                fullWidth
+                formControlName="name"
+                fieldSize="small"
+                placeholder="название"
+              >
+            </nb-card-body>
+            <nb-card-body>
+                <nb-card-header>Ссылка</nb-card-header>
+                <input
+                  type="text"
+                  nbInput
+                  fullWidth
+                  formControlName="link"
+                  fieldSize="small"
+                  placeholder="ссылка"
+                >
+            </nb-card-body>
+          <nb-card-body>
+            <button class="btn" type="submit" [disabled]="!createLocaleForm.valid">
+              Добавить
+            </button>
+          </nb-card-body>
+        </ng-container>
+      </nb-card>
+    </form>
+    <form *ngIf="createNavItem" [formGroup]="createNavItem" (ngSubmit)="onCreateNavItem()">
+      <nb-card>
+        <nb-card-header class="bg-header-create-section">
+          <span>
+            Создать новый пункт меню
+          </span>
+        </nb-card-header>
+        <nb-card-body>
+          <nb-card-header>
+            Сортировка
+          </nb-card-header>
+          <div class="flex-col">
+            <nb-select
+            class="select-translate" 
+            placeholder="слева/справа если в подвале" 
+            formControlName="float"
+            [(selected)]="selectedFloat"
+            >
+              <nb-option value="left">Слева(подвал)</nb-option>
+              <nb-option value="right">Справа(подвал)</nb-option>
+            </nb-select>
+            <input
+              type="number"
+              nbInput
+              fullWidth
+              formControlName="position"
+              fieldSize="small"
+              placeholder="Позиция"
+            >
+          </div>
+        </nb-card-body>
+        <nb-card-body>
+          <nb-checkbox 
+            formControlName="showInHeader"
+            status="primary">Верхнее меню</nb-checkbox>
+          <nb-checkbox 
+            formControlName="showInFooter"
+            status="primary">Подвал меню</nb-checkbox>
+        </nb-card-body>
+      </nb-card>
+      <div formArrayName="translatable">
+        <ngb-tabset [justify]="currentJustify">
+          <ngb-tab *ngFor="let group of localeFormUpdateArray; let i = index;" title="Язык: {{localesList[i].name}}">
+            <ng-template ngbTabContent>
+              <div [formGroupName]="i">
+                <nb-card>
+                  <nb-card-body>
+                    <nb-card-header>Имя</nb-card-header>
+                    <input
+                      type="text"
+                      nbInput
+                      fullWidth
+                      formControlName="name"
+                      fieldSize="small"
+                      placeholder="название"
+                    >
+                  </nb-card-body>
+                  <nb-card-body>
+                    <nb-card-header>Ссылка</nb-card-header>
+                    <input
+                      type="text"
+                      nbInput
+                      fullWidth
+                      formControlName="link"
+                      fieldSize="small"
+                      placeholder="ссылка"
+                    >
+                  </nb-card-body>
+                </nb-card>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+      <nb-card>
+        <nb-card-body>
+          <button class="btn" type="submit" [disabled]="!createNavItem.valid">
+            Создать
+          </button>
+        </nb-card-body>
+      </nb-card>
+    </form>
+  </div>
+  <div class="col-lg-7">
+    <div *ngFor="let navItem of navList">
+      <nb-card>
+        <nb-card-header class="nav-box">
+          <button
+            class="btn"
+            type="button"
+            (click)="onEdit(navItem.id)"
+          >
+            <nb-icon icon="edit-2-outline"></nb-icon>
+          </button>
+          <button
+            class="btn"
+            type="button"
+            [nbPopover]="templateRef"
+          >
+            <nb-icon icon="trash-2-outline"></nb-icon>
+          </button>
+          <ng-template #templateRef>
+            <div class="delete-item-section">
+              <p *ngIf="navItem.translations.length > 0" >Удалить <b>"{{ navItem.translations[0].name }}"</b> ?</p>
+              <p *ngIf="navItem.translations.length === 0" >Удалить?</p>
+              <div class="btn-flex-sction">
+                <button nbButton (click)="onRemove(navItem.id)" status="danger">Удалить</button>
+              </div>
+            </div>
+          </ng-template>
+          <ng-container *ngIf="navItem.translations.length > 0">
+            {{navItem.translations[0].name}}
+          </ng-container>
+        </nb-card-header>
+        <nb-card-body>
+          <div *ngIf="navItem.showInHeader">
+            <nb-icon icon="arrow-ios-upward-outline"></nb-icon> Добавлено в верхнее меню
+          </div>
+          <div *ngIf="navItem.showInFooter">
+            <nb-icon icon="arrow-ios-downward-outline"></nb-icon> Добавлено в меню подвала
+          </div>
+          <div *ngIf="navItem.float === 'left'">
+            <nb-icon icon="arrow-ios-back-outline"></nb-icon> Расположено в подвале: слева
+          </div>
+          <div *ngIf="navItem.float === 'right'">
+            <nb-icon icon="arrow-ios-forward-outline"></nb-icon> Расположено в подвале: справа
+          </div>
+        </nb-card-body>
+      </nb-card>
+    </div>
+  </div>
+</div>

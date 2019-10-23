@@ -1,0 +1,17 @@
+query eventCategory($localeId: uuid, $limit: Int = 1, $offset: Int) {
+  newsI18n(
+    limit: $limit
+    offset: $offset
+    order_by: { news: {createdAt: asc } }
+    where: { localeId: { _eq: $localeId } }){
+    id
+    title
+    slug
+    metaDescription
+  }
+  metadata:newsI18n_aggregate(where: { localeId: { _eq: $localeId } }) {
+    info:aggregate {
+      count
+    }
+  }
+}

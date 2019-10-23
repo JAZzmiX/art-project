@@ -1,0 +1,18 @@
+query categoryList(
+  $localeId: uuid,
+  $searchTerm: String,
+  $limit: Int = 50, 
+  $offset: Int = 0,
+) {
+  category(
+    where: {translations: { name:{ _ilike: $searchTerm }}}
+    limit: $limit
+    offset: $offset
+  ) {
+   id
+   translations(where: {localeId: {_eq: $localeId}}) {
+    name
+    slug
+  }
+  }
+}

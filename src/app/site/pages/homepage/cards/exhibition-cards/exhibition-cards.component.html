@@ -1,0 +1,44 @@
+<app-loading class="app-loading" *ngIf="showSpinner"></app-loading>
+<div [ngClass]="showSpinner ? 'content-loading' : 'content-loaded'">
+  <div class="row content-center">
+    <ng-container *ngFor="let card of exhibitionCards | async">
+        <div class="card"
+              *ngIf="card && card.translations.length > 0"
+              class="col-lg-4 col-md-6 col-sm-12 card-wrapper">
+          <div class="card-img"
+                *ngIf="card.image && card.translations.length > 0" >
+            <a [routerLink]="card.translations[0].slug">
+              <img
+                :[src]="card.image | imagePathReplacer:'exhibitions'"
+                  [alt]="card.translations[0].title" > 
+            </a>
+          </div>
+          <div class="text-wrapper" >
+            <div class="top-text" 
+            *ngIf="card && card.exhibitionWorks && 
+                           card.exhibitionWorks.length > 0 && 
+                           card.exhibitionWorks[0].work && 
+                           card.exhibitionWorks[0].work.artist &&
+                           card.exhibitionWorks[0].work.artist.translations.length > 0; else emptyData">
+              <span *ngIf="translation && translation.workAuthor">{{ translation.workAuthor.value }}</span>
+              <a [routerLink]="card.exhibitionWorks[0].work.artist.translations[0].slug" >{{ card.exhibitionWorks[0].work.artist.translations[0].name }}</a>
+            </div>
+            <div class="middle-text" *ngIf="card.translations[0]">
+              <span *ngIf="translation && translation.workName">{{ translation.workName.value }}</span>
+              <p>{{ card.translations[0].title }}</p>
+            </div>
+            <div class="bottom-text" *ngIf="card.startDate">
+              <span *ngIf="translation && translation.exhibDate">{{ translation.exhibDate.value }}</span>
+              <p>{{ card.startDate | date : 'dd.MM.yyyy' : timeZone }} - {{ card.endDate | date : 'dd.MM.yyyy' : timeZone}}</p>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+  </div>
+</div>
+
+<ng-template #emptyData>
+  <div class="top-text">
+    <a> - </a>
+  </div>
+</ng-template>

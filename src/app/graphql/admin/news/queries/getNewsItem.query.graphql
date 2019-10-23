@@ -1,0 +1,17 @@
+query getNewsItem($newsId: uuid) {
+  news(
+    where: {
+      id: {_eq: $newsId}
+    }) {
+    id
+    createdAt
+    translations(order_by: {localeId:asc}) {
+      title
+      body
+      slug
+      localeId
+      metaTitle
+      metaDescription
+    }
+  }
+}

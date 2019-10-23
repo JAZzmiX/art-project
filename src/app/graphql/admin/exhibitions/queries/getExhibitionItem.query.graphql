@@ -1,0 +1,25 @@
+query getExhibitionItem($exhibId: uuid) {
+  exhibition(where: {id: { _eq: $exhibId }}) {
+    id
+    createdAt
+    image
+    showInMainPage
+    startDate
+    endDate
+    files(order_by: { localeId:asc }) {
+      id
+      title
+      slug
+      localeId
+      fileName
+    }
+    translations(order_by: { localeId:asc })  {
+      title
+      body
+      slug
+      localeId
+      metaTitle
+      metaDescription
+    }
+  }
+}

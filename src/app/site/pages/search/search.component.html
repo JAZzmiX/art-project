@@ -1,0 +1,26 @@
+<div class="container content-wrapper inner-wrapper">
+  <div class="row">
+    <div class="col-lg-2 category-search-title">
+          <ng-container *ngIf="translation && translation.headerSearch">
+            <h1>{{ translation.headerSearch.value }}</h1>
+          </ng-container>
+    </div>
+    <div class="col-lg-10 search-flex">
+      <ng-container *ngIf="translation && translation.headerSearch">
+        <input type="text" class="form-control" [placeholder]="translation.headerSearch.value" ngModel (ngModelChange)="filterTitle($event)">
+      </ng-container>
+    </div>
+  </div>
+      <div class="search-wrapper" *ngFor="let item of searchQuery | async">
+        <a [routerLink]="['/' + item.slug]" >{{item.name}}</a>
+        <div class="content-search" [innerHTML]="item.description" ></div>
+      </div>
+      <!-- <div class="col-12">
+        <div class="more-article btn large-btn" 
+              (click)="getSearchListItem()"  
+              *ngIf="translation && translation.workMoreBtn">
+          {{translation.workMoreBtn.value}}
+          <span>&rsaquo;</span>
+        </div>
+      </div> -->
+  </div>

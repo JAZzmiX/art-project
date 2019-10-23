@@ -1,0 +1,16 @@
+query shopCategory($localeId: uuid!, $shopCat: uuid) {
+  category(where:{ id:{_eq: $shopCat}}) {
+    translations(where: {localeId: {_eq: $localeId}}) {
+      name
+    }
+    descendants {
+      descendant {
+        id
+        translations(where: {localeId: {_eq: $localeId}}) {
+          name
+          slug
+        }
+      }
+    }
+  }
+}

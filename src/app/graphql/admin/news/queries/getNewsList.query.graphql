@@ -1,0 +1,17 @@
+query getNewsList($localeId: uuid!, $searchTerm: String, $limit: Int = 50, $offset: Int ) {
+  news(where: {translations: { title:{ _ilike: $searchTerm }}}) {
+    id
+    createdAt
+    translations(
+      limit: $limit
+      offset: $offset
+      where: {localeId: {_eq: $localeId}}
+      )  {
+      title
+      body
+      slug
+      metaTitle
+      metaDescription
+    }
+  }
+}

@@ -1,0 +1,9 @@
+query homePage($localeId: uuid, $pageId: uuid) {
+  pageI18n(where: { localeId: { _eq: $localeId }, pageId: { _eq: $pageId } }) {
+    title
+    metaTitle
+    metaDescription
+    body
+    pageId
+  }
+}

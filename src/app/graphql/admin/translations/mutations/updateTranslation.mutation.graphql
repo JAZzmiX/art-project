@@ -1,0 +1,10 @@
+mutation updateTranslation($value: String!, $id: String!) {
+  updateTranslation(
+    id: $id,
+    data: {
+      value: $value
+    }
+  ) {
+    ok
+  }
+}

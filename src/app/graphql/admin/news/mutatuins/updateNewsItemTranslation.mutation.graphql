@@ -1,0 +1,21 @@
+mutation updateNewsItemTranslation(
+  $newsId: String!,
+  $localeId: String!,
+  $title: String,
+  $body: String,
+  $metaTitle: String,
+  $metaDescription: String
+) {
+  updateNewsTranslation(
+    newsId: $newsId
+    localeId: $localeId
+    data: {
+      title: $title
+      body: $body
+      metaTitle: $metaTitle
+      metaDescription: $metaDescription
+    }
+  ) {
+    ok
+  }
+}

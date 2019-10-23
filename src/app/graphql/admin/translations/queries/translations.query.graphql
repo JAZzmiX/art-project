@@ -1,0 +1,10 @@
+query getTranslations($localeId: uuid, $searchTerm: String) {
+  translation( where: { 
+    localeId: { _eq: $localeId }
+    value:{ _ilike: $searchTerm }
+  }) {
+    id
+    key
+    value
+  }
+}

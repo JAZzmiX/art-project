@@ -1,0 +1,8 @@
+query locales {
+  locale(order_by: {id:asc}) {
+    id
+    name
+    code
+    isDefault
+  }
+}

@@ -1,0 +1,13 @@
+query updatePageQuery($pageId: uuid) {
+  page(where: {id:{_eq: $pageId}}) {
+    id
+    translations(order_by: {localeId:asc}) {
+      title
+      slug
+      body
+      localeId
+      metaTitle
+      metaDescription
+    }
+  }
+}

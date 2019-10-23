@@ -1,0 +1,58 @@
+<footer class="container-fluid footer">
+  <div class="row">
+    <div class="divider"></div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-auto mr-auto footer-nav">
+          <ng-container *ngIf="navigationFooterLeft">
+            <ng-container *ngFor="let item of navigationFooterLeft" >
+                <a [routerLink]="['/' + item.link]" routerLinkActive="nav-active">
+                  {{ item.name }}
+                  <span> | </span>
+                </a>
+            </ng-container>
+          </ng-container>
+        </div>
+        <div class="mr-auto">
+          <div class="container-fluid">
+            <div class="row social-link">
+              <ng-container *ngIf="translation && translation.socialTitle">
+                <p>{{ translation.socialTitle.value }}</p>
+              </ng-container>
+              <ng-container *ngIf="slocialList">
+                <ng-container *ngFor="let soclial of slocialList">
+                  <a rel="nofollow" target="_blanck" href="{{ soclial.link }}" [ngClass]="soclial.className"></a>
+                </ng-container>
+              </ng-container>
+              <div class="form-group">
+                <input type="text">
+                <ng-container *ngIf="translation && translation.subscripbeBtn">
+                    <button class="btn">{{ translation.subscripbeBtn.value }}</button>
+                </ng-container>
+              </div>
+          </div>
+        </div>
+      </div>
+        <div class="col-auto footer-nav footer-nav-right">
+            <ng-container *ngIf="navigationFooterRight">
+                <ng-container *ngFor="let item of navigationFooterRight" >
+                    <a [routerLink]="['/' + item.link]" routerLinkActive="nav-active">
+                      {{ item.name }}
+                      <span> | </span>
+                    </a>
+                </ng-container>
+              </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="copyright">
+      <ng-container *ngIf="translation && translation.copyrightText">
+        <p>{{ translation.copyrightText.value }} {{ dateNow  | date : "yyyy"}}</p>
+      </ng-container>
+      <p class="createby">Create by 2Developers</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,53 @@
+query workItem($workId: uuid!) {
+  work( where: {id: {_eq: $workId}}) {
+    id
+    price
+    images
+    forSale
+    price
+    size
+    positionOnMainPage
+    showInMainPage
+    provenance {
+      id
+      translations(order_by: {localeId:asc}) {
+        name
+        localeId
+      }
+    }
+    school {
+      id
+      translations(order_by: {localeId:asc}) {
+        name
+        localeId
+      }
+    }
+    basis {
+      id
+      translations(order_by: {localeId:asc}) {
+        name
+        localeId
+      }
+    }
+    technique {
+      id
+      translations(order_by: {localeId:asc}) {
+        name
+        localeId
+      }
+    }
+    translations(order_by: {localeId:asc}) {
+      title
+      slug
+      localeId
+    }
+    artist {
+      id
+      translations(order_by: {localeId:asc}) {
+        name
+        slug
+        localeId
+      }
+    }
+  }
+}

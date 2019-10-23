@@ -1,0 +1,68 @@
+<app-slider [sliderImages]="slides" [showSpinner]="showSpinner"></app-slider>
+<div class="container-fluid content-wrapper">
+  <div class="row">
+    <div class="col-xl-10 col-sm-12">
+      <ng-container *ngIf="translation && translation.exhibitionTitleSection">
+        <div class="title-section">
+          <p>{{ translation.exhibitionTitleSection.value }}</p>
+        </div>
+      </ng-container>
+      <app-exhibition-cards *ngIf="exhibitionCards" [exhibitionCards]="exhibitionCards" [translation]="translation"></app-exhibition-cards>
+      <div class="row">
+        <ng-container *ngIf="btnMoreExhibitions && translation && translation.allExhibitionBtn">
+          <div class="col-md-4 offset-md-4 main-page-btns">
+            <a class="btn w-100 large-btn" [routerLink]="['/' + btnMoreExhibitions]">{{ translation.allExhibitionBtn.value }}</a>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-xl-2 col-sm-12 main-page-btns">
+      <ng-container *ngIf="translation && translation.newsText">
+        <div class="title-section">
+          <p>{{ translation.newsText.value }}</p>
+        </div>
+      </ng-container>
+      <app-news *ngIf="eventList" [eventList]="eventList"></app-news>
+      <ng-container *ngIf="btnMoreEvents && translation && translation.allNewsBtn">
+        <a  class="btn w-100 large-btn" [routerLink]="['/' + btnMoreEvents]">{{ translation.allNewsBtn.value }}</a>
+      </ng-container>
+    </div>
+    <div class="col-12">
+      <ng-container *ngIf="translation && translation.artistsTitleSection">
+        <div class="title-section">
+          <p>{{ translation.artistsTitleSection.value }}</p>
+        </div>
+      </ng-container>
+      <app-work-card *ngIf="worksCards" [worksCards]="worksCards" [translation]="translation"></app-work-card>
+      <div class="row">
+        <ng-container *ngIf="btnMoreArtists && translation && translation.allArtistsBtn">
+          <div class="col-md-3 offset-md-4 main-page-btns">
+            <a class="btn w-100 large-btn" [routerLink]="['/' + btnMoreArtists]">{{ translation.allArtistsBtn.value }}</a>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-12">
+      <ng-container *ngIf="translation && translation.lastArrivalInStoreSection">
+          <div class="title-section">
+            <p>{{ translation.lastArrivalInStoreSection.value }}</p>
+          </div>
+      </ng-container>
+      <app-goods-cards  *ngIf="goodsCards" [goodsCards]="goodsCards" [translation]="translation"></app-goods-cards>
+      <div class="row">
+        <ng-container *ngIf="btnMoreShop && translation && translation.allGoodsBtn">
+          <div class="col-md-3 offset-md-4 main-page-btns">
+            <a class="btn w-100 large-btn" [routerLink]="['/' + btnMoreShop]">{{ translation.allGoodsBtn.value }}</a>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <ng-container *ngIf="homePageDesc">
+      <div class="col-12">
+        <div class="row">
+          <div class="container text-section" [innerHTML]="homePageDesc"></div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

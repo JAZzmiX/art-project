@@ -1,0 +1,19 @@
+.admin-navigation {
+  a {
+    background: #ffffff;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    display: block;
+    padding: 0.8rem;
+    color: #797979;
+    margin-bottom: 0.5rem;
+
+    &:hover {
+      color: #D24C44;
+    }
+    &.router-link-active {
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #D24C44;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+query cartList($localeId: uuid, $workIdCart: uuid) {
+  cart( where: {
+    workId: { _eq: $workIdCart}
+  } ){
+    id
+    quantity
+    work{
+      id
+      images
+      price
+      translations(where: { localeId: { _eq: $localeId } }) {
+        title
+        slug
+      }
+      artist {
+        translations(where: { localeId: { _eq: $localeId } }) {
+          name
+          slug
+        }
+      }
+    }
+  }
+}

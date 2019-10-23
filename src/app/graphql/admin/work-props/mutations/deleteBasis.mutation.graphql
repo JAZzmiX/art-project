@@ -1,0 +1,5 @@
+mutation deleteBasis($id: String!) {
+  deleteBasis(id: $id) {
+    deleted
+  }
+}

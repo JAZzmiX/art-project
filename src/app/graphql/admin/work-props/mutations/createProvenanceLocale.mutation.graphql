@@ -1,0 +1,16 @@
+mutation createProvenanceLocale(
+  $provenanceId: String!,
+  $localeId: String!,
+  $name: String!
+  
+) {
+  createProvenanceTranslation(
+    provenanceId: $provenanceId
+    localeId: $localeId
+    data: {
+      name: $name
+    }
+  ) {
+    id
+  }
+}

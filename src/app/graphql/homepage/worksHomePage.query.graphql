@@ -1,0 +1,18 @@
+query WorksHomePage($localeId: uuid, $limit: Int = 1) {
+  work(limit: $limit, where: { showInMainPage: { _eq: true } }) {
+    id
+    images
+    translations(where: { localeId: { _eq: $localeId } }) {
+      title
+      slug
+      creationDate
+    }
+    artist {
+      translations(where: { localeId: { _eq: $localeId } }) {
+        id
+        slug
+        name
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+query getWorkArtist($localeId: uuid) {
+  artist {
+    id
+    translations(where: {
+      localeId: {_eq: $localeId}
+    }) {
+      name
+      slug
+      localeId
+    }
+  }
+}

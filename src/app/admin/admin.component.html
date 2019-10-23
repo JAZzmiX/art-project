@@ -1,0 +1,41 @@
+<nb-layout>
+  <nb-layout-header fixed>
+    <div class="user-nav">
+      <a nbButton status="primary" routerLink="/" target="_blank">
+        Сайт
+      </a>
+      <button nbButton status="danger" (click)="onLogout()">
+        Выход
+      </button>
+    </div>
+    <div class="locale-admin">
+      <p>
+        Язык:
+      </p>
+      <select
+        class="form-control"
+        (change)="changeLang($event.target.value)">
+        <ng-container *ngIf="isDefaultLang">
+            <option [value]="isDefaultLang.id" selected hidden="hidden" >{{ isDefaultLang.name }}</option>
+        </ng-container>
+        <option *ngFor="let lang of languages | async" [value]="lang.id" [selected]="lang.id === isActiveLocale">{{ lang.name }}</option>
+      </select>
+    </div>
+  </nb-layout-header>
+  <nb-sidebar>
+    <div class="admin-navigation">
+      <a [routerLink]="['work']" routerLinkActive="router-link-active" >Работы</a>
+      <a [routerLink]="['exhibition']" routerLinkActive="router-link-active" >Выставки</a>
+      <a [routerLink]="['news']" routerLinkActive="router-link-active" >События</a>
+      <a [routerLink]="['artist']" routerLinkActive="router-link-active" >Художники</a>
+      <a [routerLink]="['page']" routerLinkActive="router-link-active" >Страницы</a>
+      <a [routerLink]="['categories']" routerLinkActive="router-link-active" >Все категории</a>
+      <a [routerLink]="['shop-category']" routerLinkActive="router-link-active" >Категории магазина</a>
+      <a [routerLink]="['navigation']" routerLinkActive="router-link-active" >Навигация</a>
+      <a [routerLink]="['translations']" routerLinkActive="router-link-active" >Статические переводы</a>
+    </div>
+  </nb-sidebar>
+  <nb-layout-column>
+   <router-outlet></router-outlet>
+  </nb-layout-column>
+</nb-layout>

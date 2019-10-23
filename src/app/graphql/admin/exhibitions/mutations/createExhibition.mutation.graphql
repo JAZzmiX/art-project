@@ -1,0 +1,18 @@
+mutation createExhibition(
+  $startDate: Date!,
+  $image: Upload,
+  $showInMainPage: Boolean,
+  $endDate: Date,
+  $works: [String]
+) {
+  createExhibition(
+    image: $image
+    data: {
+      startDate: $startDate
+      endDate: $endDate
+      showInMainPage: $showInMainPage
+      works: $works
+    }) {
+    id
+  }
+}

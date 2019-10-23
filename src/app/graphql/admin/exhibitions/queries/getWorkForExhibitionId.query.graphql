@@ -1,0 +1,19 @@
+query worksForExhibition($exhibId: uuid, $localeId: uuid) {
+  work(where: {
+    workExhibitions: {
+      exhibitionId: {_eq:$exhibId}
+    }
+  }) {
+    id
+    images
+    translations(where: {localeId:{ _eq:  $localeId}}) {
+      title
+      localeId
+    }
+    artist {
+      translations(where: {localeId:{ _eq:  $localeId}}) {
+        name
+      }
+    }
+  }
+}

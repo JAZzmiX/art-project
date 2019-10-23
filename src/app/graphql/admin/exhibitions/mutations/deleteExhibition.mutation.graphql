@@ -1,0 +1,7 @@
+mutation deleteExhibition($exhibitionId: String!) {
+  deleteExhibition(
+    id: $exhibitionId
+  ) {
+    deleted
+  }
+}

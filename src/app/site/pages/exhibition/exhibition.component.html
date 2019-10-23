@@ -1,0 +1,115 @@
+<app-loading class="app-loading" *ngIf="showSpinner"></app-loading>
+<div [ngClass]="showSpinner ? 'content-loading' : 'content-loaded'">
+  <div class="container">
+    <div class="row">
+      <ng-container *ngIf="image">
+        <div class="col-sm-12 col-xl-6">
+          <div class="imageFull">
+            <img [src]="image | imagePathReplacer:'exhibitions'">
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="exhibitionDescription">
+        <ng-container *ngFor="let props of exhibitionDescription">
+          <div [ngClass]="image ? 'col-sm-12 col-xl-6' : 'col-sm-12' ">
+            <h1>{{ props.title }}</h1>
+            <ng-container *ngIf="startDate && endDate">
+                <div class="work-props">
+                  <span *ngIf="translation && translation.exhibDate" >{{translation.exhibDate.value}}</span>
+                    <p> {{ startDate | date : 'dd.MM.yyyy' }} - {{ endDate | date : 'dd.MM.yyyy' }}</p>
+                </div>
+                <div class="work-props" *ngIf="pdfFile">
+                  <span *ngIf="translation && translation.pressRelease">{{translation.pressRelease.value}}</span>
+                    <a  [href]="pdfFile | imagePathReplacer:'customFiles'" 
+                        rel="nofollow" target="_blank" 
+                        class="download-pdf"
+                        *ngIf="translation && translation.downloadPDF">{{ translation.downloadPDF.value }}</a>
+                </div>
+            </ng-container>
+          </div>
+        
+          <ng-container *ngIf="props.body">
+            <div class="col-sm-12">
+              <div class="" [innerHTML]="props.body" [ngClass]="isCollapsed ? 'article-exhibition open-slide ' : 'article-exhibition'"></div>
+              <div 
+              [ngClass]="isCollapsed ? 'more-article btn large-btn bottom-arrow ' : 'more-article btn large-btn'"
+              *ngIf="translation && translation.exhibReadMore"
+              (click)="isCollapsed = !isCollapsed" > {{ translation.exhibReadMore.value }} <span>&rsaquo;</span></div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div
+      class="scroller-wrapper-works imageFullWrapper"
+      ngxInfiniteScroller
+      *ngIf="browser | async"
+      (onScrollDown)="onMoreWorks()"
+      strategy="scrollingToBottom"
+    >
+    <div class="container">
+        <ng-container *ngIf="exhibitionWorks">
+          <div class="row">
+            <div class="col-12">
+              <div class="mdc-image-list mdc-image-list--masonry masonry-image-list">
+                <div
+                  class="mdc-image-list__item"
+                  *ngFor="let props of exhibitionWorks" >
+                  <ng-container >
+                    <div class="gallery-item">
+                      <a [routerLink]="['/' + props.work.translations[0].slug]" >
+                        <img src="{{props.work.images[0].thumbnail | imagePathReplacer:'works'}}"  />
+                      </a>
+                      <div class="gallery-description">
+                        <ng-container *ngIf="props.work.artist">
+                          <div class="work-props">
+                              <span *ngIf="translation && translation.workAuthor">{{translation.workAuthor.value}}</span>
+                                <a [routerLink]="['/' + props.work.artist.translations[0].slug]">{{ props.work.artist.translations[0].name }}</a>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="props.work">
+                          <div class="work-props">
+                              <span *ngIf="translation && translation.workName">{{translation.workName.value}}</span>
+                              <p> {{ props.work.translations[0].title }} </p>
+                          </div>
+                        </ng-container>
+                        <ng-container *ngIf="props.work">
+                            <div class="work-props">
+                                <span *ngIf="translation && translation.exhibDate">{{translation.exhibDate.value}}</span>
+                                <p *ngIf="props.work.translations[0].creationDate; else emptyData"> {{ props.work.translations[0].creationDate }} </p>
+                            </div>
+                          </ng-container>
+                        <ng-container *ngIf="props.work.forSale">
+                            <div class="work-props">
+                                <span *ngIf="translation && translation.workPrice">{{translation.workPrice.value}}</span>
+                                <p> {{ props.work.price }} <span *ngIf="translation && translation.workCurrency">{{translation.workCurrency.value}}</span></p>
+                            </div>
+                            <a [routerLink]="['/' + props.work.translations[0].slug]"  class="btn w-100 large-btn" *ngIf="translation && translation.workSale">{{translation.workSale.value}}</a>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <div *ngIf="loading" class=" loader-container-works">
+                <div class="loader">loading...</div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-12">
+            <div class="more-article btn large-btn" 
+                (click)="onMoreWorks()"  
+                *ngIf="!hiddenBtnMoreWorks && translation && translation.workMoreBtn">
+              {{translation.workMoreBtn.value}}
+              <span>&rsaquo;</span>
+            </div>
+          </div> -->
+        </ng-container>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyData>
+  <p> - </p>
+</ng-template>

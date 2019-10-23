@@ -1,0 +1,24 @@
+.category-sidebar {
+  width: 100%;
+  height: 100vh;
+}
+.Sidebar-nav {
+  width: 220px;
+  a {
+    display: flex;
+    color: #909090;
+    padding-bottom: 0.4rem;
+  }
+  .active{
+    color: #d24c44;
+    text-decoration: underline;
+  }
+}
+::ng-deep .ng-sidebar__content--animate {
+  transition: none;
+}
+
+.scroller-wrapper-cat {
+  margin: 0;
+  width: 100%;
+}

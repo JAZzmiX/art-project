@@ -1,0 +1,12 @@
+query categoryitem($categoryId: uuid!) {
+  category(where: {
+  	id: {_eq: $categoryId}
+  }) {
+    id
+   translations(order_by: {localeId:asc}) {
+    localeId
+    name
+    slug
+  }
+  }
+}

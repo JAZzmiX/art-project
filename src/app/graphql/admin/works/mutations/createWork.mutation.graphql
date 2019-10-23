@@ -1,0 +1,28 @@
+mutation createWork(
+  $images: [Upload!]!,
+  $artistId: String,
+  $showInMainPage: Boolean,
+  $forSale: Boolean,
+  $price: Float,
+ 	$techniqueId: String,
+  $basisId: String,
+  $schoolId: String,
+  $provenanceId: String
+) {
+  createWork(
+    images: $images
+    data: {
+      artistId: $artistId
+      showInMainPage: $showInMainPage
+      forSale: $forSale
+      price: $price
+      techniqueId: $techniqueId
+      basisId: $basisId
+      schoolId: $schoolId
+      provenanceId: $provenanceId
+     
+    }
+  ) {
+    id
+  }
+}

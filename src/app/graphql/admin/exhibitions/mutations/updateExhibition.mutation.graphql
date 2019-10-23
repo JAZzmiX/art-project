@@ -1,0 +1,23 @@
+mutation updateExhibition(
+  $exhibitionId: String!,
+  $showInMainPage: Boolean,
+  $startDate: Date,
+  $endDate: Date,
+  $image: Upload,
+  $worksToInsert: [String]
+  $worksToDelete: [String]
+) {
+  updateExhibition(
+    id: $exhibitionId
+    image: $image
+    data: {
+      startDate: $startDate
+      endDate: $endDate
+      showInMainPage: $showInMainPage
+      worksToInsert: $worksToInsert
+      worksToDelete: $worksToDelete
+    }
+  ) {
+    ok
+  }
+}

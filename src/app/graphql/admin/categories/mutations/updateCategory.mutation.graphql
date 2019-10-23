@@ -1,0 +1,16 @@
+mutation updateCategory(
+  $id: String!
+  $photo: Upload,
+  $parentId: String
+) {
+  updateCategory(
+    id: $id
+    photo: $photo
+    data: {
+      parentId: $parentId
+    }
+  ) {
+    ok
+    photo
+  }
+}

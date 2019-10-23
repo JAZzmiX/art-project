@@ -1,0 +1,37 @@
+query getArtistLocale(
+  $slug: String
+  $localeId: uuid
+  $limit: Int = 10
+  $offset: Int
+) {
+  artist(where: { translations: { slug: { _eq: $slug } } }) {
+    id
+     metadata:works_aggregate{
+      info:aggregate{
+        count
+      }
+    }
+    translations(
+      where: { localeId: { _eq: $localeId } }
+      order_by: { id: asc }	
+    ) {
+      id
+      slug
+      metaTitle
+      name
+      metaDescription
+      description
+      localeId
+    }
+    works(limit: $limit, offset: $offset) {
+      images
+      price
+      forSale
+      translations(where: { localeId: { _eq: $localeId } }) {
+        title
+        slug
+        creationDate
+      }
+    }
+  }
+}

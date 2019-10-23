@@ -1,0 +1,15 @@
+mutation createNavigationId(
+  $showInHeader: Boolean, 
+  $showInFooter: Boolean,
+  $floatNav: NAVIGATION_FLOATS,
+) {
+  createNavigation(
+    data: {
+      showInHeader: $showInHeader
+      showInFooter: $showInFooter
+      float: $floatNav
+    }
+  ) {
+    id
+  }
+}

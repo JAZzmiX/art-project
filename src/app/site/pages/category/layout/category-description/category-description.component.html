@@ -1,0 +1,8 @@
+<app-loading class="app-loading" *ngIf="showSpinner"></app-loading>
+<div [ngClass]="showSpinner ? 'content-loaded' : 'сontent-loaded'">
+  <ng-container *ngFor="let props of categoryDesc | async">
+    <ng-container *ngIf="props && props.translations | arryExist">
+      <h1>{{ props.translations[0].title }}</h1>
+    </ng-container>
+  </ng-container>
+</div>

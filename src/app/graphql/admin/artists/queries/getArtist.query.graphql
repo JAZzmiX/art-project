@@ -1,0 +1,25 @@
+query getArtist($artistId: uuid!) {
+  artist(where: {
+   id: { _eq: $artistId}
+  }) {
+    id
+    createdAt
+    translations(order_by: {localeId:asc}) {
+      name
+      localeId
+      description
+      slug
+      metaTitle
+      metaDescription
+      date
+    }
+    works {
+      id
+    	images
+      translations {
+        title
+        slug
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+query categoryCategories($slug: String, $localeId: uuid) {
+  category(where: { translations: { slug: { _eq: $slug } } }) {
+    translations(where: { localeId: { _eq: $localeId } }) {
+      metaTitle
+      metaDescription
+      title: name
+      description
+    }
+  }
+}

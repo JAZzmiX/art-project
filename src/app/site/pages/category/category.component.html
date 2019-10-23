@@ -1,0 +1,23 @@
+<!-- 
+<ng-container *ngFor="let props of categoryCategoriesDesc | async">
+  <ng-container *ngIf="props && props.translations | arryExist">
+    <h1>{{ props.translations[0].title }}</h1>
+  </ng-container>
+</ng-container>
+
+<div [ngClass]="showSpinner ? 'row content-loading' : 'row content-loaded'">
+  <ng-container *ngFor="let category of categories">
+    <ng-container *ngIf="category.__typename === 'exhibition'">
+        <div class="col-12">
+          <ng-container *ngIf="category && category.translations | arryExist">
+            <a [routerLink]="['/' + category.translations[0].slug]">{{ category.translations[0].title }}</a>
+          </ng-container>
+        </div>
+    </ng-container>
+  </ng-container>
+</div> -->
+<app-cotegory-events *ngIf="categoryEvents"></app-cotegory-events>
+<app-cotegory-artists *ngIf="categoryArtists"></app-cotegory-artists>
+<app-cotegory-work *ngIf="categoryWorks && !categoryShop"></app-cotegory-work>
+<app-cotegory-shop *ngIf="categoryShop"></app-cotegory-shop>
+<app-cotegory-exhibitions *ngIf="categoryExhibitions"></app-cotegory-exhibitions>

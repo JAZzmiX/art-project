@@ -1,0 +1,19 @@
+query artistsCategory($localeId: uuid, $limit: Int = 1, $offset: Int = 0, $titleSarch: String) {
+  artistI18n(limit: $limit, offset: $offset,
+  where:{
+    localeId: { _eq: $localeId }
+    name: { _ilike: $titleSarch }
+  }
+  order_by: { name: asc }
+  ){
+    name
+    metaDescription
+    slug
+    id
+  }
+  metadata:artistI18n_aggregate(where: { localeId: { _eq: $localeId } }) {
+    info:aggregate {
+      count
+    }
+  }
+}

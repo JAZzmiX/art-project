@@ -1,0 +1,10 @@
+mutation updatePositionsOfNav($id: String!, $position: Int!) {
+  updatePositionsOfNavigations(
+    data: {
+      id: $id
+      position: $position
+    }
+  ) {
+    ok
+  }
+}

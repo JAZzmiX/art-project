@@ -1,0 +1,18 @@
+query staticTranslation($localeId:uuid){
+  translation(
+    where:{
+   _and: [{
+        localeId:{
+         _eq: $localeId
+       }
+      }, {
+        page: {
+          _in:["main", "footer", "header", "work", "exhibition"]
+        }
+      }]
+    }
+  ){
+    key
+    value
+  }
+}

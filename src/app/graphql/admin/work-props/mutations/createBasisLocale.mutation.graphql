@@ -1,0 +1,16 @@
+mutation createBasisLocale(
+  $basisId: String!,
+  $localeId: String!,
+  $name: String!
+  
+) {
+  createBasisTranslation(
+    basisId: $basisId
+    localeId: $localeId
+    data: {
+      name: $name
+    }
+  ) {
+    id
+  }
+}

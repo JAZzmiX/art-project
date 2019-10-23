@@ -1,0 +1,22 @@
+mutation createExhibitionTranslation(
+  $exhibitionId: String!,
+  $localeId: String!,
+  $title: String!,
+  $desc: String,
+  $metaTitle: String,
+  $metaDescription:String
+) {
+  createExhibitionTranslation(
+    exhibitionId: $exhibitionId
+    localeId: $localeId
+    data: {
+      title: $title
+      body: $desc
+      metaTitle: $metaTitle
+      metaDescription: $metaDescription
+    }
+  ) {
+    id
+    slug
+  }
+}

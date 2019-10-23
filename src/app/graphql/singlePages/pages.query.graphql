@@ -1,0 +1,12 @@
+query Page($localeId: uuid, $slug: String) {
+  page (where:{
+    translations: { slug: { _eq: $slug} }
+  }) {
+    translations(where: { localeId: {_eq: $localeId }  })  {
+      metaDescription
+      metaTitle
+      title
+      body
+    }
+  }
+}

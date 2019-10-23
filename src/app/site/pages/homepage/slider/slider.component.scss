@@ -1,0 +1,72 @@
+.carousel-caption {
+  max-width: 567px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  background: rgba(#ffffff, 0.6);
+
+  h3,
+  p {
+    text-align: left;
+  }
+  p {
+    color: #323232;
+  }
+  h3 {
+    color: #2a2a2a;
+    font-weight: 300;
+  }
+}
+
+.text-slide {
+  margin: 0 100px 0 60px;
+}
+
+
+.carousel-caption {
+  left: 0;
+  bottom: 0;
+}
+
+.control-nav {
+  width: 138px;
+  height: 140px;
+  position: absolute;
+  right: -69px;
+  bottom: 0;
+}
+
+.leftArrow {
+  background-color: rgba(#2a2a2a, 0.6);
+  float: left;
+}
+
+.rightArrow {
+  background-color: rgba(#ffffff, 0.4);
+  float: left;
+}
+
+.leftArrow,
+.rightArrow,
+.link-slide {
+  width: 69px;
+  height: 70px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:focus {
+    outline: 0;
+  }
+
+  &:hover {
+    background: #d24c44;
+    svg {
+      g,
+      path {
+        fill: #ffffff;
+      }
+    }
+  }
+}

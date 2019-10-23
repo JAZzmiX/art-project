@@ -1,0 +1,10 @@
+query allEventsHome($localeId: uuid, $limit: Int = 1) {
+  newsI18n (
+  	where: { localeId: {_eq: $localeId} }
+  	order_by: { news: {createdAt: asc } }
+    limit: $limit
+  ){
+    title
+    slug
+  }
+}

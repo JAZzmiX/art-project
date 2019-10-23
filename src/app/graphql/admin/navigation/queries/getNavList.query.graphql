@@ -1,0 +1,15 @@
+query getNavList($localeId: uuid) {
+  navigation (order_by: { position: asc_nulls_first }) {
+    id
+    position
+    showInFooter
+    showInHeader
+    float
+    translations( where: {localeId: {_eq: $localeId}}) {
+      name
+      id
+      link
+      localeId
+    }
+  }
+}

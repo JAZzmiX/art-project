@@ -1,0 +1,37 @@
+query exhibitionCategory($localeId: uuid, $limit: Int = 1, $endLte: timestamptz = null, $endGte: timestamptz = null, $startLte: timestamptz = null, $startGte: timestamptz = null, $offset: Int = 0, $titleSarch: String, $orderBy:order_by = desc) {
+  exhibition(limit: $limit, offset: $offset, where:{
+   translations: { title:{ _ilike: $titleSarch }}
+   endDate: { _lte: $endLte,  _gte: $endGte }
+   startDate:{ _gt: $startGte, _lte: $startLte}
+  }
+   order_by: { startDate: $orderBy }
+  ) {
+    id
+    image
+    startDate
+    endDate
+    translations(where: 
+      { localeId: { _eq: $localeId }
+      }){
+      title
+      slug
+      id
+    }
+    exhibitionWorks(limit: 1) {
+      work{
+        artist {
+          translations(where: { localeId: { _eq: $localeId } }) {
+            id
+            slug
+            name
+          }
+        }
+      }
+    }
+  }
+  metadata:exhibition_aggregate (where: { translations: {localeId: { _eq: $localeId } } }) {
+    info:aggregate {
+      count
+    }
+  }
+}

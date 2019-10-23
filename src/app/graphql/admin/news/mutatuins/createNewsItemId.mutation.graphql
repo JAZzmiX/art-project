@@ -1,0 +1,6 @@
+mutation createNewsItemId($date: String) {
+  createNews (data: { publicationDate: $date}) {
+    id
+    publicationDate
+  }
+}

@@ -1,0 +1,17 @@
+query goodsHome($localeId: uuid, $limit: Int = 1) {
+  work(where: { forSale: { _eq: true } }, limit: $limit) {
+    images
+    price
+    artist {
+      translations(where: { localeId: { _eq: $localeId } }) {
+        name
+        slug
+      }
+    }
+    translations(where: { localeId: { _eq: $localeId } }) {
+      title
+      slug
+      creationDate
+    }
+  }
+}

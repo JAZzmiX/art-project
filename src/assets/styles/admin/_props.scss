@@ -1,0 +1,50 @@
+.delete-item-section {
+  padding: 0.5rem;
+
+  .btn-flex-sction {
+    display: flex;
+    justify-content: center;
+  }
+}
+.ng-invalid, .ng-invalid .select-button  {
+  border-color: red!important;
+}
+
+.close-modale {
+  float: right;
+  cursor: pointer;
+}
+
+.image-thumbnail {
+  width: 150px;
+}
+
+.flex-col {
+  display: flex;
+  button, p, input, .select-translate {
+    margin-right: 1rem;
+  }
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.works-props {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+
+  img {
+    width: 120px;
+    height: auto;
+  }
+
+  .works-props-text {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5rem 1.2rem;
+  }
+}

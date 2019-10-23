@@ -1,0 +1,16 @@
+mutation createTechniqueLocale(
+  $techniqueId: String!,
+  $localeId: String!,
+  $name: String!
+  
+) {
+  createTechniqueTranslation(
+    techniqueId: $techniqueId
+    localeId: $localeId
+    data: {
+      name: $name
+    }
+  ) {
+    id
+  }
+}

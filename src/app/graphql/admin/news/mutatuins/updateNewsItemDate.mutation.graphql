@@ -1,0 +1,10 @@
+mutation updateNewsItemDate($newsId: String!, $date: String) {
+  updateNews(
+    id: $newsId
+    data: {
+      publicationDate: $date
+    }
+  ) {
+    ok
+  }
+}

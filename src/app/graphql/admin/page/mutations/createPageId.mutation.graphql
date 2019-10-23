@@ -1,0 +1,5 @@
+mutation cratePageId {
+  createPage {
+    id
+  }
+}

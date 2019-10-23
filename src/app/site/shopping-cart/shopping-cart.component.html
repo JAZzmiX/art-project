@@ -1,0 +1,49 @@
+<button  *ngIf="showBtnCart && browser | async" class="shopping-cart" (click)="openScrollableContent(longContent)">
+  <i class="fas fa-shopping-cart"></i> 
+  <span>{{ counter }}</span> 
+</button>
+
+<ng-template #longContent let-modal>
+  <ng-container *ngIf="browser | async">
+    <div class="modal-header">
+      <h4 class="modal-title">{{translation.cart.value}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" *ngIf="browser | async">
+        <div class="product" *ngFor="let product of cartList; let i = index ">
+          <a [routerLink]="['/' + product.work.translations[0].slug]" (click)="modal.dismiss('Cross click')">
+            <img src="{{product.work.images[0].thumbnail | imagePathReplacer:'works'}}" />
+          </a>
+          <div class="product-article">
+            <a [routerLink]="['/' + product.work.artist.translations[0].slug]" (click)="modal.dismiss('Cross click')">
+              <span>{{translation.workAuthor.value}}</span>
+              {{ product.work.artist.translations[0].name }}
+            </a>
+            <a [routerLink]="['/' + product.work.translations[0].slug]" (click)="modal.dismiss('Cross click')">
+              <span>
+                  {{translation.workName.value}}
+              </span>
+              {{ product.work.translations[0].title }}
+            </a>
+            <p>
+              <span>
+                {{ translation.workPrice.value }}
+              </span>
+              {{ product.work.price }}
+              <span>
+                {{translation.workCurrency.value}}
+              </span>
+            </p>
+          </div>
+          <button type="button" class="btn btn-danger" (click)="onRemoveProduct(i, product.id)" ><i class="fas fa-trash-alt"></i></button>
+        </div>
+    </div>
+    <div class="modal-footer">
+  
+      <button type="button" class="btn btn-primary" (click)="OnCheckout()" >{{translation.checkoutCartBtn.value}}</button>
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">{{translation.modalClose.value}}</button>
+    </div>
+  </ng-container>
+</ng-template>

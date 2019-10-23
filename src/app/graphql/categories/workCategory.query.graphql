@@ -1,0 +1,50 @@
+query workCategory(
+  $localeId: uuid
+  $limit: Int = 10
+  $offset: Int = 0
+  $catId: uuid
+  $titleSarch: String
+  $forSale: Boolean = false
+) {
+  workCategory(
+    limit: $limit
+    offset: $offset
+    order_by: {work: {id: asc}}
+    where: {
+      categoryId: { _eq: $catId }
+      work: { 
+        translations: { title: { _ilike: $titleSarch } }
+        forSale: {_eq: $forSale }
+      }
+    }
+  ) {
+    work {
+      id
+      images
+      forSale
+      price
+      translations(where: { localeId: { _eq: $localeId } }) {
+        id
+        title
+        slug
+        creationDate
+      }
+      artist {
+        translations(where: { localeId: { _eq: $localeId } }) {
+          name
+          slug
+        }
+      }
+    }
+  }
+  metadata: work_aggregate(
+    where: {
+      translations: { localeId: { _eq: $localeId } }
+      workCategories: { categoryId: { _eq: $catId } }
+    }
+  ) {
+    info: aggregate {
+      count
+    }
+  }
+}
